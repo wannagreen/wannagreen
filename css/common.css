@@ -1,0 +1,135 @@
+@charset "utf-8";
+
+/*******************************/
+/* Common Layout CSS Document  */
+/*******************************/
+
+.hidden { display: none; }
+.clear { clear: both; }
+.center { text-align: center; }
+.right { text-align: right; }
+.left { text-align: left; }
+.justify { text-align: justify; }
+.strong { font-weight: bold; }
+.underline { text-decoration: underline; }
+.big { font-weight: bold; font-size: 1.2em; }
+.small { font-size: 0.8em; }
+.vmiddle { vertical-align: middle; }
+
+/* messages de succès/erreur/info/avertissement ----------------------------- */
+
+.success, .info, .error, .warning {
+	min-height: 15px;
+	line-height: 15px;
+	margin: 10px 0 !important;
+	padding: 10px 33px !important;
+	text-align: left !important;
+	border-radius: 8px;
+	-moz-border-radius: 8px;
+}
+.success p, .info p, .error p, .warning  p {
+	padding: 0 !important;
+	margin: 0 0 1em 0 !important;
+}
+p.success, p.info, p.error, p.warning {
+	background-color: transparent;
+	border: none;
+}
+.success {
+	background: #D4FFD4 url('../images/icons/accept.png') no-repeat 10px 10px;
+	border: 1px solid #4DA24D;
+	color: #348934;
+}
+.info {
+	background: #DFF4FF url('../images/icons/information.png') no-repeat 10px 10px;
+	border: 1px solid #4985B2;
+	color: #005B9F;
+}
+.warning {
+	background: #FFFFD4 url('../images/icons/error.png') no-repeat 10px 10px;
+	border: 1px solid #D5AA00;
+	color: #D5AA00;
+}
+.error {
+	background: #FFD4D4 url('../images/icons/exclamation.png') no-repeat 10px 10px;
+	border: 1px solid #D02626;
+	color: #D02626;
+}
+.error ul {
+	list-style-type: none;
+}
+.error li {
+	padding-left: 22px;
+	background: url('../images/icons/bullet_red.png') no-repeat;
+}
+
+/* boutons OUI et NON ------------------------------------------------------- */
+
+.button-oui, .button-non {
+	width: 40px;
+	height: 20px;
+	display: inline-block;
+	margin: 0 2px;
+	text-decoration: none;
+}
+.button-oui {
+	background: url(images/buttons/oui.png) no-repeat;
+}
+.button-oui:hover {
+	background-image: url(images/buttons/oui_hover.png);
+}
+.button-non {
+	background: url(images/buttons/non.png) no-repeat;
+}
+.button-non:hover {
+	background-image: url(images/buttons/non_hover.png);
+}
+
+/* Apple-like button -------------------------------------------------------- */
+
+a.apple-button {
+	background: transparent url(images/buttons/bg_button_a.png) no-repeat scroll top right;
+	color: #555 !important;
+	text-shadow: 1px 1px 0 white;
+	font-weight: bold;
+	font-size: 12px;
+	display: inline-block;
+	height: 24px;
+	margin: 0 6px 6px 0;
+	padding-right: 18px; /* sliding doors padding */
+	text-decoration: none;
+}
+a.apple-button > span {
+	background: transparent url(images/buttons/bg_button_span.png) no-repeat;
+	display: inline-block;
+	line-height: 14px;
+	padding: 5px 0 5px 18px;
+}
+a.apple-button:hover {
+	color: #fafafa !important;
+	text-shadow: 1px 1px 0 #111;
+	background-position: bottom right;
+}
+a.apple-button:hover > span {
+	background-position: bottom left;
+}
+a.apple-button:active {
+	background-position: center right;
+	color: #222 !important;
+	text-shadow: 1px 1px 0 white;
+	outline: none; /* hide dotted outline in Firefox */
+}
+a.apple-button:active > span {
+	background-position: center left;
+}
+
+/* Icons -------------------------------------------------------------------- */
+
+.edit {
+	background: url(../images/icons/pencil.png) no-repeat center left;
+	padding-left: 22px;
+}
+.delete {
+	background: url(../images/icons/delete.png) no-repeat center left;
+	padding-left: 22px;
+}

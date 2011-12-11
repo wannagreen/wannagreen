@@ -1,0 +1,537 @@
+@charset "utf-8";
+
+/** Reset and general properties (a, p, class...) **/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+
+/* remember to define focus styles! */
+:focus {
+    outline: 0;
+}
+
+/* remember to highlight inserts somehow! */
+ins {
+    text-decoration: none;
+}
+del {
+    text-decoration: line-through;
+}
+
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/** END RESETS **/
+
+/** LESS **/
+
+@color_std: #646464;
+@color_light: #AAAAAA;
+@color_pal_std: #82BC43;
+
+.rounded(@radius: 7px) {
+	border-radius: @radius;
+	-moz-border-radius: @radius;
+	-webkit-border-radius: @radius;
+}
+
+.shadow() {
+	box-shadow: 0 3px 3px #888;
+	-moz-box-shadow: 0 3px 3px #888;
+	-webkit-box-shadow: 0 3px 3px #888;
+}
+
+/** END LESS **/
+
+/** GENERAL **/
+body {
+    font-family: Verdana, Arial;
+    font-size: 12px;
+    color: @color_std;
+}
+
+a {
+	color: @color_std;
+	text-decoration: underline;
+	
+	&:hover {
+		text-decoration: none;
+		color: @color_pal_std;
+	}
+}
+
+p {
+	margin: 5px 0;
+}
+
+input[type=text], input[type=password], textarea {
+	padding: 5px;
+	border: 1px solid gray;
+}
+
+input[type=text]:focus, input[type=password]:focus, textarea:focus {
+	padding: 4px;
+	border: 2px solid @color_pal_std;
+}
+
+#simplemodal-overlay {
+	background-color: #000;
+	/* cursor: wait; */
+}
+#simplemodal-container {
+	height: 150px;
+	width: 540px;
+	color: #bbb;
+	background-color: #F2F2F2;
+	border: 4px solid #444;
+	padding: 12px;
+	.rounded();
+	
+	.simplemodal-data {
+		padding:8px;
+	}
+	code {
+		background:#141414;
+		border-left:3px solid #65B43D;
+		color:#bbb;
+		display:block;
+		font-size:12px;
+		margin-bottom:12px;
+		padding:4px 6px 6px;
+	}
+	a {
+		color:#ddd;
+	}
+	a.modalCloseImg {
+		background:url(images/x.png) no-repeat;
+		width:25px;
+		height:29px;
+		display:inline;
+		z-index:3200;
+		position:absolute;
+		top:-15px;
+		right:-18px;
+		cursor:pointer;
+	}
+	h3 {
+		color:#84b8d9;
+	}
+}
+
+#gauche, #droite {
+	.block {
+		margin:25px 0;
+	}
+	.block_header {
+		height:30px;
+		line-height:30px;
+		padding-left: 10px;
+		padding-top: 0;
+	}
+}
+#droite {
+	.block_content, .ui-tabs-panel {
+		padding-top: 20px;
+		padding-bottom: 20px;
+		overflow: auto;
+		
+		p {
+			margin-bottom: 15px;
+		}
+	}
+}
+
+/* Division pour avoir le header fixed sur toute la largeur */
+#header {
+	width:100%;
+	height:60px;
+	position:fixed;
+	background:url(images/header_bg.png) repeat-x top left;
+	z-index:10;
+	.shadow();
+}
+
+/* Division pour centrer le header */
+#center {
+	width: 1000px;
+	margin: 0 auto;
+}
+
+/* Header */
+#center input {
+	font-size: 11px;
+}
+
+#logo {
+	background: url(images/header_logo.jpg) no-repeat top left;
+	height: 50px;
+	width: 260px;
+	float:left;
+	font-size:24px;
+	padding: 10px 0 0 50px;
+	
+	a {
+		text-decoration: none;
+		color: #FFFFFF;
+	}
+	a:hover {
+		text-decoration: underline;
+	}
+}
+
+#recherche {
+	height: 30px;
+	width: 280px;
+	padding: 15px;
+	float: left;
+}
+
+#barre_recherche {
+	width:208px;
+}
+
+#menu {
+	overflow: auto;
+	float: right;
+	
+	a {
+		color: #FFFFFF;
+		font-size: 11px;
+		text-decoration: none;
+	}
+	a:hover {
+		text-decoration: underline;
+	}
+	input[type=text], input[type=password] {
+		margin-right:5px;
+	}
+	#header_connexion {
+		padding-top: 15px;
+	}
+	#header_connecte ul {
+		list-style-type: none;
+		li {
+			float: left;
+			a {
+				font-size: 12px;
+				display: block;
+				height: 60px;
+				line-height: 60px;
+				padding: 0 15px;
+				
+				&:hover {
+					background: url(images/header_menu_bg.png) repeat-x top left;
+					text-decoration: none;
+				}
+			}
+		}
+	}
+}
+
+#conteneur {
+	width:1000px;
+	margin: 0 auto;
+	padding-top: 60px;
+    background-color:#FFFFFF;
+}
+
+#contenu #gauche {
+	width: 250px;
+	float: left;
+	.block_content, .block #tabs div {
+		ul li {
+			list-style-type:none;
+			padding: 5px 0;
+		}
+	}
+}
+
+#droite {
+	float: left;
+	margin: 25px 0 0 30px;
+}
+
+#droite #module {
+	width: 712px;
+	div.ui-tabs {
+		width: 712px; /* Répétition obligatoire */
+	}
+	min-height: 200px;
+}
+
+/* Accueil */
+#module #accueil {
+	h1 {
+		font-size: 22px;
+		font-family: "Indie Flower";
+		margin-bottom: 20px;
+		color: @color_pal_std;
+	}
+	h2 {
+		font-size: 24px;
+		font-weight: normal;
+		margin: 20px 0;
+	}
+	form {
+		margin: 0 0 20px 0;
+		
+		input[type=text] {
+			width: 250px;
+		}
+	}
+	div#twitter_search {
+		.tweet {
+			padding-bottom: 15px;
+			margin-bottom: 20px;
+			border-bottom: 1px solid @color_light;
+			&:first-child {
+				padding-top: 20px;
+				border-top: 1px solid @color_light;
+			}
+			&:last-child {
+				border: none;
+				padding-bottom: 0;
+				margin-bottom: 0;
+			}
+		}
+		.tweet_image, .tweet_userdate {
+			float: left;
+		}
+		.tweet_image {
+			margin-right: 20px;
+		}
+		.tweet_username {
+			font-size: 20px;
+		}
+		.tweet_date {
+			margin-top: 5px;
+		}
+		.tweet_content {
+			margin-top: 10px
+		}
+	}
+}
+
+/* Formulaire inscription */
+#utilisateur_creer {
+	#autoCompletionResult {
+		margin: 0;
+		width: 370px;
+		height: auto;
+		position: absolute;
+		background-color: white;
+	}
+
+	#autoCompletionResult ul {
+		margin: 0;
+		padding: 0;
+	}
+
+	#autoCompletionResult ul li {
+		font-size: 12px;
+		padding: 5px 0 5px 10px;
+		display: inherit;
+		height: 30px;
+		border-bottom: thin solid #E5E3E3;
+	}
+
+	#autoCompletionResult ul li:hover {
+		background-color: #EDEDED;
+		color: #06F;
+		cursor: pointer;
+	}
+}
+#utilisateur_creer, #groupe_creer {
+	form {
+		input[type=text], input[type=password], textarea {
+			width: 240px;
+		}
+	}
+	table {
+		td {
+			padding: 10px 15px;
+			vertical-align: middle;
+		}
+	}
+}
+
+/* Style générique pour un profil ou une page de détails (d'un groupe par ex) */
+#module .profil_details {
+	div.block_content {
+		padding-bottom: 10px;
+	}
+	p {
+		margin: 10px 0 0 0;
+	}
+	.avatar {
+		float: left;
+		margin: 0 25px 0 0;
+	}
+	h2.nom {
+		color: @color_pal_std;
+		font-size: 26px;
+		margin: 5px 0;
+	}
+	.date {
+		color: @color_light;
+	}
+	.description {
+		padding-top: 15px;
+		border-top: 1px solid silver;
+	}
+	div div ul {
+		margin-bottom: 20px;
+		&:last-child {
+			margin-bottom: 0;
+		}
+		h3 {
+			color: @color_pal_std;
+			font-size: 16px;
+		}
+		li {
+			margin: 5px 0;
+		}
+	}
+	div#map {
+		width: 620px;
+		height: 500px;
+		margin: 0 auto;
+	}
+	p.social_icon {
+		padding-left: 32px;
+		line-height: 25px;
+		margin: 5px 0;
+	}
+	h3.titre {
+		margin-top: 15px;
+		font-size: 22px;
+	}
+	div.liste_comm {
+		margin-bottom: 5px;
+		.commentaire {
+			background: #DDD;
+			padding: 5px 10px 8px;
+			margin: 3px 0;
+			p {
+				margin: 5px 0 0 0;
+			}
+			.date {
+				color: @color_light;
+			}
+		}
+	}
+}
+
+/* Style générique une page de listing (liste des utilisateurs par ex) */
+#module .listing {
+	div.groupe, div.utilisateur, div.publication {
+		padding-bottom: 30px;
+		margin-bottom: 20px;
+		border-bottom: 1px solid @color_light;
+		&:last-child {
+			border: none;
+			padding-bottom: 0;
+			margin-bottom: 0;
+		}
+		
+		p {
+			margin: 5px 0 0 0;
+		}
+		.avatar {
+			float: left;
+			margin: 5px 20px 0 0;
+		}
+		h3.nom {
+			font-size: 16px;
+			margin: 0 0 10px 0;
+		}
+		.date {
+			color: @color_light;
+		}
+		.description {
+		
+		}
+	}
+}
+
+#module .profil_details, #module .listing {
+	.nbpartenaires, .nbfavoris, .nbmembres, .membre, .admin {
+		padding-left: 22px;
+		margin-right: 15px;
+	}
+	.nbpartenaires {
+		background: url(../images/icons/arrow_switch.png) no-repeat top left;
+	}
+	.nbfavoris {
+		background: url(../images/icons/star.png) no-repeat top left;
+	}
+	.nbmembres, .membre {
+		background: url(../images/icons/user_go.png) no-repeat top left;
+	}
+	.admin {
+		background: url(../images/icons/user_suit.png) no-repeat top left;
+	}
+	.tag_link {
+		background: url(../images/icons/tag_blue.png) no-repeat center left;
+		padding: 4px 20px;
+		margin: 0 10px 0 0;
+		display: inline-block;
+		line-height: 16px;
+		position: relative;
+		img {
+			margin-left: 3px;
+			cursor: pointer;
+			position: absolute;
+			top: 3px;
+			right: 0px;
+		}
+	}
+}
+
+#barre_interaction ul {
+	list-style-type: none;
+	li {
+		float: left;
+		a, p {
+			font-size: 12px;
+			display: block;
+			height: 30px;
+			line-height: 30px;
+			padding: 0 5px;
+		}
+	}
+}
+
+/** FOOTER **/
+#footer {
+	width:100%;
+	border-top:1px solid silver;
+	text-align:center;
+	margin-top: 30px;
+	padding: 10px 0;
+	font-size: 0.9em;
+}
