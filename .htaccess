@@ -1,0 +1,6 @@
+# Do not remove this line, otherwise mod_rewrite rules will stop working
+RewriteEngine on
+RewriteCond $1 !^(index\.php|images|css|less|js|robots\.txt)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /index.php/$1 [L]
