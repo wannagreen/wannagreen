@@ -81,7 +81,7 @@
 								<h1>Module introuvable</h1>
 							</div>
 							<div id="publication_creer" class="block_content ui-tabs-panel ui-widget-content ui-corner-bottom">
-								<p class="warning">Il n'y a aucun module Ã  charger, ou le module ne peut pas Ãªtre chargÃ©</p>
+								<p class="warning">Il n'y a aucun module à charger, ou le module ne peut pas être chargé</p>
 							</div>
 						</div><?php
 					endif;
@@ -90,7 +90,7 @@
 		</div>
 		<div class="clear"></div>
 		<div id="footer">
-			<p>FJJMNR â€¢ &copy; PPD Plateforme Wannagreen â€¢ <a href="javascript:;" class="twitter" id="twitter_decouvrir">Faire connaÃ®tre sur Twitter</a> â€¢ <a href="<?= base_url() ?>/lien/mentions_legales">Mentions lÃ©gales</a> â€¢ <a href="#">Retour en haut</a></p>
+			<p>FJJMNR • &copy; PPD Plateforme Wannagreen • <a href="javascript:;" class="twitter" id="twitter_decouvrir">Faire connaître sur Twitter</a> • <a href="<?= base_url() ?>/lien/mentions_legales">Mentions légales</a> • <a href="#">Retour en haut</a></p>
 		</div>
 	</div>
 </body>

@@ -510,6 +510,8 @@ class Lien extends CI_Controller {
 		redirect('lien/index'); 
 	}
 	
-	
+	public function mentions_legales(){
+		redirect('mentions_legales');		
+	}
 	
 }
