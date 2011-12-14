@@ -402,16 +402,36 @@ class Utilisateur extends CI_Controller {
 				'prenom' => $user->prenom
 			);
 			$this->session->set_userdata($sess_infos);
+                        redirect('accueil');
 		}
-		
+                
+                if($user->valid_connection()==false) {
+			// On créer la session pour l'utilisateur
+                    /*
+			$this->data['notice'] = 'Les informations de connexion que vous avez saisies sont invalides';
+			$this->data['notice_type'] = 'error';*/
+                        //$this->load->view('modules/utilisateur_creer', $this->data);
+                    /*$data['message'] = 'La connexion a échoué. Veuillez vérifier vos paramètres de connexion.';
+                    
+                    $data['erreur'] = true;*/
+                    //$this->load->view('template', $data);
+                    redirect('erreurconnexion');
+		}
+               
+		/*else
+                {
+                    $this->data['notice'] = 'L\'email que vous avez saisi est invalide';
+                    $this->data['notice_type'] = 'error';
+                } */
 		/* Gestion des groupes de l'utilisateur connecté */
 		if($this->session->userdata('is_connected') === TRUE) {
 			$this->data['user_connected'] = TRUE;
 			$id_utilisateur = $this->session->userdata('id_utilisateur');
 			$this->data = array_merge($this->data, $this->Groupe_model->listes_groupes($id_utilisateur));
+                        redirect('accueil');
 		}
 		
-		redirect('accueil');
+		//redirect('accueil');
 	}
 	
 	public function deconnexion()
