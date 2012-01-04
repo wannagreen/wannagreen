@@ -1,7 +1,7 @@
 <div id="module" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
 	<div class="block_header ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
 		<?php if($liste == 'publications_recentes') :?> 
-			<h1>Publications récentes</h1>
+			<h1>Publications récentes </h1>
 		<?php endif;?> 
 		<?php if($liste == 'mes_publications') :?> 
 			<h1>Mes publications</h1>
@@ -11,19 +11,38 @@
 		<div class="description listing">
 		<?php if(isset($liste_publications) && count($liste_publications) > 0) : foreach($liste_publications as $publication): ?>
 			
-			<?php if($liste == 'mes_publications' || $publication->id_utilisateur == $this->session->userdata('id_utilisateur')):
+			<?php if($liste == 'mes_publications' && $publication->id_utilisateur == $this->session->userdata('id_utilisateur')):
 						if ($publication->type == 'article') :?> 
 							<p><a href="<?= base_url() ?>publication/modification_publication/<?= $publication->id_publication?>" class="edit" id="clic_modif_article">Modifier</a></p>
 				<?php endif; ?>
 					<p><a href="<?= base_url() ?>publication/supprimer/<?=$liste ?>/<?= $publication->id_publication?>" class="delete" id="clic_suppr_publication">Supprimer</a></p>
 			<?php endif;?> 
-			
-			<?php if($publication->visible) :?> 
+                                        
+                       <?php if($liste == 'publications_recentes' && /*$publication->groupe != null &&*/ $publication->id_utilisateur == $this->session->userdata('id_utilisateur') /*&& $publication->visible*/):
+						if ($publication->type == 'article') :?> 
+							<p><a href="<?= base_url() ?>publication/modification_publication/<?= $publication->id_publication?>" class="edit" id="clic_modif_article">Modifier</a></p>
+				<?php endif; ?>
+					<p><a href="<?= base_url() ?>publication/supprimer/<?=$liste ?>/<?= $publication->id_publication?>" class="delete" id="clic_suppr_publication">Supprimer</a></p>
+			<?php endif;?> 
+                                        
+			<?php if($liste == 'publications_recentes' && $publication->prive == "0" || $publication->id_utilisateur == $this->session->userdata('id_utilisateur')) :?> 
 			<div class="publication">
-				Publié dans le(s) groupe(s) :				
-				<?php foreach($publication->groupe as $groupe) : ?>
+								
+				<?php
+                                if(count($publication->groupe) > 0)
+                                {
+                                    ?> Publié dans le(s) groupe(s) : <?php
+                                    foreach($publication->groupe as $groupe) : ?>
 					<a href="<?= base_url() ?>groupe/details/<?= $groupe->id_groupe?>"><?= $groupe->nom ?></a>
-				<?php endforeach; ?>
+				<?php endforeach; 
+                                }
+                                else
+                                {
+                                    ?>
+                                    Publié dans aucun groupe.
+                                    <?php
+                                }
+                                ?>
 				<br><br>
 				<?php if(isset($publication->info) && count($publication->info) > 0) : foreach($publication->info as $info) : 
 						if($info->libelle == 'titre') : ?>

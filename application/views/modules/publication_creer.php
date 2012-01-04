@@ -31,7 +31,8 @@
 				$liste_groupes .= form_label($groupe->nom, $groupe->nom);
 			endforeach;
 		endif;
-		if(isset($tabs_mes_groupes) && count($tabs_mes_groupes) > 0):
+		
+                if(isset($tabs_mes_groupes) && count($tabs_mes_groupes) > 0):
 			foreach($tabs_mes_groupes as $groupe):
 				// Traitement spécifique à la modification : recherche des groupes où l'article a été publié pour pouvoir les cocher
 				$checked = FALSE;
@@ -47,6 +48,11 @@
 			endforeach;
 		endif;
 		
+                if(count($tabs_mes_groupes) == 0)
+                {
+                    $liste_groupes = "Vous n'êtes inscrit sur aucun groupe.";
+                }
+                
 		$fields = array(
 			array(
 				'&nbsp;',
@@ -61,7 +67,7 @@
 			),
 			array(
 				form_label('Texte *&nbsp;', 'description'),
-				form_textarea('description', set_value('description', isset($publication) ? $publication->description : ''), 'id="description" cols="29" rows="4"')
+                                form_textarea('description', set_value('description', isset($publication) ? $publication->description : ''), 'id="description" cols="29" rows="4"')
 			),
 			array(
 				'&nbsp;', '&nbsp;' // saut de ligne
@@ -80,6 +86,7 @@
 			array(
 				'&nbsp;', '&nbsp;' // saut de ligne
 			),
+                        
 			array(
 				'Où ?',
 				$liste_groupes
