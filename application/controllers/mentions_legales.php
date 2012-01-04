@@ -31,14 +31,14 @@ class Mentions_legales extends CI_Controller {
 	{
 		$this->data['twttr_feed'] = $this->get_twitter_feed($this->default_search);
 		$this->data['module'] = 'mentions_legales';
-		$this->load->view('mentions_legales', $this->data);
+		$this->load->view('template', $this->data);
 	}
 	
 	public function twitter_search()
 	{
 		$this->data['twttr_feed'] = $this->get_twitter_feed($this->input->post('twttr_search'));
 		$this->data['module'] = 'erreurconnexion';
-		$this->load->view('mentions_legales', $this->data);
+		$this->load->view('template', $this->data);
 	}
 	
 	private function get_twitter_feed($search = null)
