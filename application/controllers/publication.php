@@ -109,6 +109,8 @@ class Publication extends CI_Controller {
 					$publication_info->id_publication = $id_publication;
 					$publication_info->libelle = 'description';
 					$publication_info->contenu = $this->input->post('description');
+                                        
+                                        /// OK
 					if($publication_info->create()){
 						// 3. Insertion de la date
 						$publication_info = new Publication_info_model();
@@ -116,16 +118,29 @@ class Publication extends CI_Controller {
 						$publication_info->libelle = 'date';
 						$publication_info->contenu = $date_creation;
 						if($publication_info->create()){
-						
-							/*** Insertion en table publication_groupe ***/
-							foreach ($this->input->post('groupes') as $id_groupe) {
+                                                    
+                                                        
+							/*** AJOUT Insertion en table publication_groupe si existant***/
+                                                        if($this->input->post('groupes')!=null)
+                                                        {
+                                                            foreach ($this->input->post('groupes') as $id_groupe) {
 								$publication_groupe = new Publication_groupe_model();
 								$publication_groupe->id_publication = $id_publication;
 								$publication_groupe->id_groupe = $id_groupe;
 								$publication_groupe->create();
-							}
-							
-							/*** Gestion des tags ***/
+                                                            }
+                                                        }
+                                                        /*** AJOUT Insertion en table publication_groupe si existant***/
+                                                        /*else
+                                                        {
+                                                        
+                                                            $publication_groupe = new Publication_groupe_model();
+                                                            $publication_groupe->id_publication = $id_publication;
+                                                            $publication_groupe->id_groupe = 0;
+                                                            $publication_groupe->create();
+                                                            
+                                                        }*/
+                                                                /*** Gestion des tags ***/
 							if($this->input->post('tags')!=''){
 								$tags=Trim($this->input->post('tags'));
 								$les_tags = str_replace(";",",",$tags);
@@ -169,10 +184,12 @@ class Publication extends CI_Controller {
 									}
 								}
 							} // fin gestion des tags
-							else {
+							
+                                                        else {
 								$this->data['notice'] = 'Une erreur de traitement s\'est produite, merci de rééssayer';
 								$this->data['notice_type'] = 'error';
 							}
+							
 						}
 						else {
 							$this->data['notice'] = 'Une erreur de traitement s\'est produite, merci de rééssayer';
@@ -316,10 +333,12 @@ class Publication extends CI_Controller {
 			
 			$nb_publication_visible = 0;
 			$publication->visible = FALSE;
-			
+                        
+                        //foreach ($publication->info as $info) {
 			foreach ($publication->groupe as $groupe) {
 				if($publication->prive == 0) {
 					$nb_publication_visible += 1;
+                                       // $publication->visible = TRUE;
 				}
 				else {
 					// Vérifie le lien entre l'utilisateur (si connecté) et le groupe
@@ -349,6 +368,14 @@ class Publication extends CI_Controller {
 				else
 					$publication->visible = FALSE;
 			}
+                        
+                        /*if(count($publication->groupe) < count($liste_publication))
+                        {
+                            if($publication->prive == 0) {
+					$nb_publication_visible += 1;
+                                        $publication->visible = TRUE;
+				}
+                        }*/
 		}
 		$this->data['liste_publications'] = $liste_publication;
 		
