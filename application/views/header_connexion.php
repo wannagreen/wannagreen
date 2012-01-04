@@ -9,4 +9,6 @@
 		.form_close();
 	?>
 	<a href="<?= base_url() ?>utilisateur/inscription">Pas encore inscrit ? S'inscrire</a>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<a href="<?= base_url() ?>utilisateur/mot_de_passe_oublie">Mot de passe oubli&eacute;?</a>
 </div>
