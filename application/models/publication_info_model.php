@@ -11,7 +11,7 @@ class Publication_info_model extends CI_Model {
 			parent::__construct();
 		}
 		
-	function create ()
+	function create()
 	{
 		if ($this->libelle == null || $this->contenu == null || $this->id_publication ==null)
 			$result = FALSE;
@@ -22,7 +22,7 @@ class Publication_info_model extends CI_Model {
 		return $result;
 	}
 	
-	function get_all ()
+	function get_all()
 	{
 		$query = $this->db->get('publication_info');
 		return $query->result();
@@ -43,7 +43,7 @@ class Publication_info_model extends CI_Model {
 		return $query->result();
 	}
 	
-	function modifier_publi_info ()
+	function modifier_publi_info()
 	{
 		if($this->id_publication == null || $this->id_publication_info == null || $this ->libelle ==null || $this->contenu==null )
 			return FALSE;
