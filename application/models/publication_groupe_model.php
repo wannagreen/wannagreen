@@ -35,10 +35,10 @@ class Publication_groupe_model extends CI_Model {
 		
 		$this->db->select('p.id_publication, p.id_groupe, p.date_creation, g.nom');
 		$this->db->from('publication_groupe p');
-        $this->db->join('groupe g','p.id_groupe=g.id_groupe');
-        $this->db->where('p.id_publication',$id_publication);
-        $query = $this->db->get();
-        return $query->result();
+                $this->db->join('groupe g','p.id_groupe=g.id_groupe');
+                $this->db->where('p.id_publication',$id_publication);
+                $query = $this->db->get();
+                return $query->result();
 	}
 	
 	/*
