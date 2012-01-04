@@ -1,2 +1,2 @@
 <h1>Mentions l&eacute;gales</h1>
-<p>A pr&eacute;ciser</p>
+<p>A pr&eacute;cser</p>
