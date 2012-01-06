@@ -48,7 +48,7 @@
 			endforeach;
 		endif;
 		
-                if(count($tabs_mes_groupes) == 0 && count($tabs_mes_admin) == 0)
+                if(count($tabs_mes_groupes) == 0 && count($tabs_mes_admin) == 0) 
                 {
                     $liste_groupes = "Vous n'êtes inscrit sur aucun groupe.";
                 }
