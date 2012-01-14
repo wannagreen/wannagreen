@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 class Utilisateur extends CI_Controller {
 	
 	function __construct()
@@ -438,5 +438,11 @@ class Utilisateur extends CI_Controller {
 	{
 		$this->session->sess_destroy(); // Destruction de la session		
 		redirect('/');
+	}
+
+	public function mot_de_passe_oublie()
+	{	
+		redirect('mot_de_passe_oublie');	
 	}	
+	
 }
