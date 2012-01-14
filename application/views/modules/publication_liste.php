@@ -43,7 +43,7 @@
                                     <?php
                                 }
                                 ?>
-				<br><br>
+                                <br><br>
 				<?php if(isset($publication->info) && count($publication->info) > 0) : foreach($publication->info as $info) : 
 						if($info->libelle == 'titre') : ?>
 						<h3 class="nom"><?= $info->contenu ?></h3>
@@ -67,8 +67,8 @@
 						<span class="tag_link"><a href="<?= base_url().'tag/search/'.$tag->id_tag ?>"><?= $tag->libelle ?></a></span>
 					<?php endforeach;
 					endif; ?>
-			</div>
 			
+                        </div>
 			<?php endif;?> 
 		<?php endforeach;
 		else: ?>
