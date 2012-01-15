@@ -84,7 +84,7 @@ class Publication extends CI_Controller {
 		$this->form_validation->set_error_delimiters('<li>', '</li>');
 		// Contrôle des champs obligatoires
 		$this->form_validation->set_rules('titre', 'Titre', 'trim|required|max_length[128]');
-		$this->form_validation->set_rules('description', 'Description', 'trim|htmlspecialchars');
+		$this->form_validation->set_rules('description', 'Description', 'trim|required');
 		
 		if($this->form_validation->run()) {
 			$publication = new Publication_model();
