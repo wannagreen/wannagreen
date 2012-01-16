@@ -19,7 +19,7 @@ if(($this->session->userdata('nb_connection'))){
 		<h3><?= $message ?></h3>
 		<?php }
 			if(isset($tentative_connection) && $tentative_connection=='oui' && $user_connected==TRUE){ ?>
-		<h3>La connexion a échoué</h3>
+		<h3><font color="red">La connexion a échoué</font></h3>
 			<?php }	?>
 			<!--<a href="">Me connecter à Delicious</a>-->
 		<?php if((isset($est_co) && $est_co == 'non') || (isset($tentative_connection) && $tentative_connection=='oui') && $user_connected == TRUE){ ?>

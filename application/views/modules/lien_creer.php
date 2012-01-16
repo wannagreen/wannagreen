@@ -16,10 +16,10 @@ if(($this->session->userdata('nb_connection'))){
 	<?php if((isset($tabs_mes_admin) && count($tabs_mes_admin) > 0) || (isset($tabs_mes_groupes) && count($tabs_mes_groupes) > 0)) { ?>
 	<form method="post" action="<?=base_url()?>lien/traitement_lien">
 		<?php if(isset($message)){ ?>
-		<h3><?= $message ?></h3>
+		<h3><font color="red"><?= $message ?></font></h3>
 		<?php }
 			if(isset($tentative_connection) && $tentative_connection=='oui' && $user_connected==TRUE){ ?>
-		<h3>La connexion a échoué</h3>
+		<h3><font color="red">La connexion a échoué</font></h3>
 			<?php }	?>
 			<!--<a href="">Me connecter à Delicious</a>-->
 		<?php if((isset($est_co) && $est_co == 'non') || (isset($tentative_connection) && $tentative_connection=='oui') && $user_connected == TRUE){ ?>
@@ -108,10 +108,11 @@ if(($this->session->userdata('nb_connection'))){
 				<td><input name="valid_click" id="valid_click" type="hidden" /></td>
 			</tr>
 			<tr>
-				<input type="checkbox" name="prive" value=""/> Publication privée
+				<td><input type="checkbox" name="prive" value=""/>Publication privée</td> 
 			</tr>
 			<tr>
 				<td>Groupe(s) où publier</td>
+                                <td>
 				<?php
 				if(isset($tabs_mes_admin) && count($tabs_mes_admin) > 0):
 					foreach($tabs_mes_admin as $groupe): ?>
@@ -126,6 +127,7 @@ if(($this->session->userdata('nb_connection'))){
 				<?php endforeach;
 				endif;
 				?>
+                                </td>
 			</tr>
 			<tr>
 				<td>&nbsp;</td>

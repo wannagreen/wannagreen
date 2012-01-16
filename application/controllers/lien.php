@@ -68,6 +68,8 @@ class Lien extends CI_Controller {
 				&& $this->input->post('titre') != null
 				&& $this->input->post('titre') != ''
 				&& $this->input->post('tags') != null
+                                && $this->input->post('tags') != ''   // ajout
+                                
 				&& $this->session->userdata('login_delicious')
 				&& $this->session->userdata('mdp_delicious')
 			){
@@ -117,12 +119,15 @@ class Lien extends CI_Controller {
 									//gestion des tags
 									if($this->input->post('tags')!=''){
 										
+                                                                           /**/if($this->input->post('groupes')!=null)
+                                                                               {
 										foreach ($this->input->post('groupes') as $id_groupe) {
 											$publication_groupe = new Publication_groupe_model();
 											$publication_groupe->id_publication = $id_publication;
 											$publication_groupe->id_groupe = $id_groupe;
 											$publication_groupe->create();
 										}
+                                                                               }
 										$tags=Trim($this->input->post('tags'));
 										$les_tags = str_replace(";",",",$tags);
 										$tab_tags = explode(',', $les_tags);
@@ -287,8 +292,10 @@ class Lien extends CI_Controller {
 			else {
 				//var_dump($this->session->userdata('nb_connection'));
 				//print_r($this->session->userdata);
-				if($this->input->post('url') == '' || $this->input->post('titre') == '')
-					$this->data['message'] = 'Saisissez une URL et un titre';
+				if($this->input->post('url') == '' || $this->input->post('titre') == '' || $this->input->post('tags') == '')
+					$this->data['message'] = 'Saisissez une URL, un titre et au moins un tag';
+                                
+	
 			}//si le mec ne se connecte pas et fait une erreur on aura pas le message
 			
 			if($this->input->post('url')!=null && $this->input->post('url')!='' && $this->input->post('titre')!=null && ($this->input->post('tags')!=null) && !($this->session->userdata('login_delicious')) && !($this->session->userdata('mdp_delicious'))){
