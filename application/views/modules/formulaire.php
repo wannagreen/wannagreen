@@ -18,8 +18,9 @@ if(($this->session->userdata('nb_connection'))){
 		<?php if(isset($message)){ ?>
 		<h3><?= $message ?></h3>
 		<?php }
-			if(isset($tentative_connection) && $tentative_connection=='oui' && $user_connected==TRUE){ ?>
-		<h3><font color="red">La connexion a échoué</font></h3>
+                
+                    if(isset($tentative_connection) && $tentative_connection=='oui' && $user_connected==TRUE){ ?>
+		<h3><font color="red">La connexion avec Delicious a échoué</font></h3>
 			<?php }	?>
 			<!--<a href="">Me connecter à Delicious</a>-->
 		<?php if((isset($est_co) && $est_co == 'non') || (isset($tentative_connection) && $tentative_connection=='oui') && $user_connected == TRUE){ ?>
@@ -115,6 +116,7 @@ if(($this->session->userdata('nb_connection'))){
 			<tr>
 				<td>Sélectionner un groupe</td>
 				<td>
+                                        <!--<select>-->
 					<?php if(isset($mesGroupesAdmin) && count($mesGroupesAdmin) > 0): foreach($mesGroupesAdmin as $groupe): ?>
 						<input type="checkbox" name="groupes[]" value="<?= $groupe->id_groupe ?>"> <?= $groupe->nom ?><br>
 						<?php endforeach;					
@@ -124,7 +126,13 @@ if(($this->session->userdata('nb_connection'))){
 						<input type="checkbox" name="groupes[]" value="<?= $groupe->id_groupe ?>"> <?= $groupe->nom ?><br>
 						<?php endforeach;					
 						endif;
-					?>
+					       
+                                        if(count($mesGroupesAdmin) == 0 && count($mesGroupesMembres) == 0) 
+                                        {
+                                            "Vous n'êtes inscrit sur aucun groupe.";
+                                        }
+                                        ?>
+                                                
 					</select>
 				</td>
 			</tr>
