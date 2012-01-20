@@ -157,7 +157,7 @@ class Lien extends CI_Controller {
 																
 															}
 													}
-													$this->data['message']="le tag a été ajouté à la publication";
+													$this->data['message']="Le tag a été ajouté à la publication";
 												}
 												else {
 													$this->data['message']="erreur - le tag n'a pu être ajouté";
@@ -176,7 +176,7 @@ class Lien extends CI_Controller {
 					}
 					
 				else if($this->input->post('tags') == ''){
-					$addurl  = $delicious->addUrl($this->input->post('url'),$this->input->post('titre'),'',$this->input->post('url'));
+					$addurl = $delicious->addUrl($this->input->post('url'),$this->input->post('titre'),'',$this->input->post('url'));
 					// ajout dans la base
 					$publication = new Publication_model();
 					$publication->type = 'lien';
@@ -227,12 +227,15 @@ class Lien extends CI_Controller {
 								$publication_info->contenu = $date_creation;
 								if($publication_info->create()){
 								
+                                                                    if($this->input->post('groupes') != null)
+                                                                    {
 									foreach ($this->input->post('groupes') as $id_groupe) {
 											$publication_groupe = new Publication_groupe_model();
 											$publication_groupe->id_publication = $id_publication;
 											$publication_groupe->id_groupe = $id_groupe;
 											$publication_groupe->create();
 									}
+                                                                    }
 									
 									//gestion des tags
 									if($this->input->post('tags')!=''){
@@ -265,7 +268,7 @@ class Lien extends CI_Controller {
 																
 															}
 													}
-													$this->data['message']="le tag a été ajouté à la publication";
+													$this->data['message']="Le tag a été ajouté à la publication";
 												}
 												else {
 													$this->data['message']="erreur - le tag n'a pu être ajouté";
@@ -293,11 +296,13 @@ class Lien extends CI_Controller {
 				//var_dump($this->session->userdata('nb_connection'));
 				//print_r($this->session->userdata);
 				if($this->input->post('url') == '' || $this->input->post('titre') == '' || $this->input->post('tags') == '')
-					$this->data['message'] = 'Saisissez une URL, un titre et au moins un tag';
+					$this->data['message'] = 'Saisissez une URL, un titre et au moins un tag !';
                                 
 	
-			}//si le mec ne se connecte pas et fait une erreur on aura pas le message
+			}//si la personne ne se connecte pas et fait une erreur on aura pas le message
 			
+                        
+                        /* Si pas de connexion avec Delicious */
 			if($this->input->post('url')!=null && $this->input->post('url')!='' && $this->input->post('titre')!=null && ($this->input->post('tags')!=null) && !($this->session->userdata('login_delicious')) && !($this->session->userdata('mdp_delicious'))){
 				// ajout seulement dans la base, pas d'ajout dans delicious
 				$this->data['message'] = 'URL ajoutée avec succès (sans etre connecté)';
@@ -348,15 +353,17 @@ class Lien extends CI_Controller {
 							$publication_info->contenu = $date_creation;
 							if($publication_info->create()){
 							
+                                                            if($this->input->post('groupes') != null)
+                                                            {
 								foreach ($this->input->post('groupes') as $id_groupe) {
 											$publication_groupe = new Publication_groupe_model();
 											$publication_groupe->id_publication = $id_publication;
 											$publication_groupe->id_groupe = $id_groupe;
 											$publication_groupe->create();
 								}
-								
+                                                            }
 								//gestion des tags
-								if($this->input->post('tags')!=''){
+                                                                if($this->input->post('tags')!=''){
 									$tags=Trim($this->input->post('tags'));
 									$les_tags = str_replace(";",",",$tags);
 									$tab_tags = explode(',', $les_tags);
@@ -385,7 +392,7 @@ class Lien extends CI_Controller {
 															
 														}
 												}
-												$this->data['message']="le tag a été ajouté à la publication";
+												$this->data['message']="Le tag a été ajouté à la publication";
 											}
 											else {
 												$this->data['message']="erreur - le tag n'a pu être ajouté";
