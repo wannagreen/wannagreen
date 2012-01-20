@@ -13,16 +13,16 @@
 			
 			<?php if($liste == 'mes_publications' && $publication->id_utilisateur == $this->session->userdata('id_utilisateur')):
 						if ($publication->type == 'article') :?> 
-							<p><a href="<?= base_url() ?>publication/modification_publication/<?= $publication->id_publication?>" class="edit" id="clic_modif_article">Modifier</a></p>
+							<a href="<?= base_url() ?>publication/modification_publication/<?= $publication->id_publication?>" class="edit" id="clic_modif_article">Modifier</a>
 				<?php endif; ?>
-					<p><a href="<?= base_url() ?>publication/supprimer/<?=$liste ?>/<?= $publication->id_publication?>" class="delete" id="clic_suppr_publication">Supprimer</a></p>
-			<?php endif;?> 
+					<a href="<?= base_url() ?>publication/supprimer/<?=$liste ?>/<?= $publication->id_publication?>" class="delete" id="clic_suppr_publication">Supprimer</a> 
+			<?php endif;?>
                                         
                        <?php if($liste == 'publications_recentes' && /*$publication->groupe != null &&*/ $publication->id_utilisateur == $this->session->userdata('id_utilisateur') /*&& $publication->visible*/):
 						if ($publication->type == 'article') :?> 
-							<p><a href="<?= base_url() ?>publication/modification_publication/<?= $publication->id_publication?>" class="edit" id="clic_modif_article">Modifier</a></p>
+							<a href="<?= base_url() ?>publication/modification_publication/<?= $publication->id_publication?>" class="edit" id="clic_modif_article">Modifier</a>
 				<?php endif; ?>
-					<p><a href="<?= base_url() ?>publication/supprimer/<?=$liste ?>/<?= $publication->id_publication?>" class="delete" id="clic_suppr_publication">Supprimer</a></p>
+                                                        <a href="<?= base_url() ?>publication/supprimer/<?=$liste ?>/<?= $publication->id_publication?>" class="delete" id="clic_suppr_publication">Supprimer</a> 
 			<?php endif;?> 
                                         
 			<?php if($liste == 'publications_recentes' && $publication->prive == "0" || $publication->id_utilisateur == $this->session->userdata('id_utilisateur')) :?> 
@@ -31,19 +31,20 @@
 				<?php
                                 if(count($publication->groupe) > 0)
                                 {
-                                    ?> Publié dans le(s) groupe(s) : <?php
+                                    ?> <p>Publié dans le(s) groupe(s) : <?php
                                     foreach($publication->groupe as $groupe) : ?>
 					<a href="<?= base_url() ?>groupe/details/<?= $groupe->id_groupe?>"><?= $groupe->nom ?></a>
 				<?php endforeach; 
+                                
                                 }
                                 else
                                 {
                                     ?>
-                                    Publié dans aucun groupe.
+                                    <p>Publié dans aucun groupe.</p>
                                     <?php
                                 }
                                 ?>
-                                <br><br>
+                               
 				<?php if(isset($publication->info) && count($publication->info) > 0) : foreach($publication->info as $info) : 
 						if($info->libelle == 'titre') : ?>
 						<h3 class="nom"><?= $info->contenu ?></h3>
@@ -52,14 +53,14 @@
 						<a href=<?= $info->contenu ?> class="_blank"><?= $info->contenu ?></a>
 						<?php endif;
 						if($info->libelle == 'description') : ?>
-						<p><?= ($info->contenu) ?></p>
+						<?= ($info->contenu) ?><p></p>
 						<?php endif;
 						if($info->libelle == 'date') : ?>
 						<p class="date"><?= time_to_str($info->contenu) ?> par <a href="<?= base_url() ?>utilisateur/profil/<?= $publication->id_utilisateur?>"><?= $publication->prenom.' '.$publication->nom ?></a></p>
 						<?php endif; ?>
 					<?php endforeach; ?>
 					<?php endif;?>
-				<br>
+				
 				<?php
 					if(count($publication->tags) > 0): ?>
 						<strong>Tags : </strong>
