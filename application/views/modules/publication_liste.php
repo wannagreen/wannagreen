@@ -44,7 +44,7 @@
                                     <?php
                                 }
                                 ?>
-                                    
+                        <br/>     
                         <?php if(isset($publication->info) && count($publication->info) > 0) : 
                                     
                                     foreach($publication->info as $info) : 

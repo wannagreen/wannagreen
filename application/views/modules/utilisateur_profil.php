@@ -52,34 +52,73 @@
 					<?php if(isset($liste_publications) && count($liste_publications) > 0) : foreach($liste_publications as $publication): ?>
 						
 						<?php if($publication->visible) :?> 
+                                            
 						<div class="publication">
+                                                    
 						<?php if($publication->id_utilisateur == $this->session->userdata('id_utilisateur')):
 									if ($publication->type == 'article') :?> 
-										<p><a href="<?= base_url() ?>publication/modification_publication/<?= $publication->id_publication?>" class="edit" id="clic_modif_article">Modifier</a></p>
-								<?php endif; ?>
-								<p><a href="<?= base_url() ?>publication/supprimer/utilisateur_profil/<?= $publication->id_publication?>/<?= $utilisateur->id_utilisateur?>" class="delete" id="clic_suppr_publication">Supprimer</a></p>
+									<a href="<?= base_url() ?>publication/modification_publication/<?= $publication->id_publication?>" class="edit" id="clic_modif_article">Modifier</a>
+                                                                        <?php endif; ?>
+                                                                        <a href="<?= base_url() ?>publication/supprimer/utilisateur_profil/<?= $publication->id_publication?>/<?= $utilisateur->id_utilisateur?>" class="delete" id="clic_suppr_publication">Supprimer</a>
 						<?php endif;?> 
 							
-							Publié dans le(s) groupe(s) :				
-							<?php foreach($publication->groupe as $groupe) : ?>
-									<a href="<?= base_url() ?>groupe/details/<?= $groupe->id_groupe?>"><?= $groupe->nom ?></a>
-							<?php endforeach; ?>
-							<br /><br />
-							<?php if(isset($publication->info) && count($publication->info) > 0) : foreach($publication->info as $info) : 
-									if($info->libelle == 'titre') : ?>
-									<h3 class="titre"><?= $info->contenu ?></h3>
-									<?php endif;
-									if($info->libelle == 'url') : ?>
-									<a href=<?= $info->contenu ?> class="_blank"><?= $info->contenu ?></a>
-									<?php endif;
-									if($info->libelle == 'description') : ?>
-									<p><?= html_entity_decode($info->contenu) ?></p>
-									<?php endif;
-									if($info->libelle == 'date') : ?>
-									<p class="date"><?= time_to_str($info->contenu) ?></p>
-									<?php endif; ?>
-								<?php endforeach; ?>
-								<?php endif;?>
+                                                        <br/><br/>
+                                                        <?php
+                                                        if(count($publication->groupe) > 0)
+                                                        {
+                                                            ?>Publié dans le(s) groupe(s) : <?php
+                                                             foreach($publication->groupe as $groupe) : ?>
+                                                             <a href="<?= base_url() ?>groupe/details/<?= $groupe->id_groupe?>"><?= $groupe->nom ?></a>
+                                                            <?php endforeach; ?>
+                                                            <?php
+                                                        }
+                                                        else
+                                                        {
+                                                            ?>
+                                                            Publié dans aucun groupe.
+                                                            <?php
+                                                        }
+                                                        ?>
+							             
+							<br/>
+                                                        
+							<?php if(isset($publication->info) && count($publication->info) > 0) : 
+                                    
+                                                        foreach($publication->info as $info) : 
+                                    
+                                                            if($info->libelle == 'titre') : ?>
+                                                            <h3 class="titre"><?= $info->contenu ?></h3>
+                                                            <?php endif;?>
+					
+                                                             <?php endforeach;     
+                                    
+                                                        foreach($publication->info as $info) : 
+                                    
+                                                            if($info->libelle == 'url') : ?>
+                                                                <a href=<?= $info->contenu ?> class="_blank"><?= $info->contenu ?></a>
+                                                            <?php endif;?>
+					
+                                                        <?php endforeach;
+					
+                                                        foreach($publication->info as $info) : 
+                                    
+                                                            if($info->libelle == 'description') : ?>
+                                                            <?= $info->contenu ?></p>
+                                                            <?php endif;?>
+					
+                                                         <?php endforeach;
+                                                
+                                                        foreach($publication->info as $info) : 
+                                    
+                                                            if($info->libelle == 'date') : ?>
+                                                            <p class="date"><?= time_to_str($info->contenu) ?> par <a href="<?= base_url() ?>utilisateur/profil/<?= $publication->id_utilisateur?>"><?= $publication->prenom.' '.$publication->nom ?></a></p>
+                                                            <?php endif; ?>
+					
+                                                        <?php endforeach; ?> 
+                                                
+                                                
+                                                        <?php endif;?>
+                                                            
 							<br />
 							<?php
 								if(count($publication->tags) > 0): ?>
