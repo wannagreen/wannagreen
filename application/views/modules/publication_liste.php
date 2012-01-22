@@ -24,18 +24,18 @@
 				<?php endif; ?>
                                                         <a href="<?= base_url() ?>publication/supprimer/<?=$liste ?>/<?= $publication->id_publication?>" class="delete" id="clic_suppr_publication">Supprimer</a> 
 			<?php endif;?> 
-                                        
+                                    
 			<?php if($liste == 'publications_recentes' && $publication->prive == "0" || $publication->id_utilisateur == $this->session->userdata('id_utilisateur')) :?> 
 			<div class="publication">
-								
+                        			
 				<?php
                                 if(count($publication->groupe) > 0)
                                 {
-                                    ?> <p>Publié dans le(s) groupe(s) : <?php
+                                    ?><p> Publié dans le(s) groupe(s) : <?php
                                     foreach($publication->groupe as $groupe) : ?>
 					<a href="<?= base_url() ?>groupe/details/<?= $groupe->id_groupe?>"><?= $groupe->nom ?></a>
-				<?php endforeach; 
-                                
+				<?php endforeach; ?>
+                                        </p><?php
                                 }
                                 else
                                 {
@@ -44,24 +44,45 @@
                                     <?php
                                 }
                                 ?>
-                               
-				<?php if(isset($publication->info) && count($publication->info) > 0) : foreach($publication->info as $info) : 
-						if($info->libelle == 'titre') : ?>
+                                    
+                        <?php if(isset($publication->info) && count($publication->info) > 0) : 
+                                    
+                                    foreach($publication->info as $info) : 
+                                    
+                                                if($info->libelle == 'titre') : ?>
 						<h3 class="nom"><?= $info->contenu ?></h3>
-						<?php endif;
-						if($info->libelle == 'url') : ?>
+						<?php endif;?>
+					
+                                <?php endforeach;     
+                                    
+                                    foreach($publication->info as $info) : 
+                                    
+                                                if($info->libelle == 'url') : ?>
 						<a href=<?= $info->contenu ?> class="_blank"><?= $info->contenu ?></a>
-						<?php endif;
-						if($info->libelle == 'description') : ?>
-						<?= ($info->contenu) ?><p></p>
-						<?php endif;
-						if($info->libelle == 'date') : ?>
+						<?php endif;?>
+					
+                                <?php endforeach;
+					
+                                     foreach($publication->info as $info) : 
+                                    
+                                                if($info->libelle == 'description') : ?>
+						<?= $info->contenu ?></p>
+						<?php endif;?>
+					
+                                <?php endforeach;
+                                                
+                                     foreach($publication->info as $info) : 
+                                    
+                                                if($info->libelle == 'date') : ?>
 						<p class="date"><?= time_to_str($info->contenu) ?> par <a href="<?= base_url() ?>utilisateur/profil/<?= $publication->id_utilisateur?>"><?= $publication->prenom.' '.$publication->nom ?></a></p>
 						<?php endif; ?>
-					<?php endforeach; ?>
-					<?php endif;?>
-				
-				<?php
+					
+                                <?php endforeach; ?> 
+                                                
+                                                
+                            <?php endif;?>
+                                                
+                            <?php
 					if(count($publication->tags) > 0): ?>
 						<strong>Tags : </strong>
 					<?php foreach($publication->tags as $tag): ?>
@@ -70,6 +91,7 @@
 					endif; ?>
 			
                         </div>
+                                                        
 			<?php endif;?> 
 		<?php endforeach;
 		else: ?>
