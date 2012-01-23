@@ -6,13 +6,14 @@
 <div id="module">
 	<?php if(isset($groupe)): ?>
 		<div id="groupe_details" class="profil_details">
-			<div id="tabs">
-				<ul>
-					<li><a href="#tabs-1">Infos</a></li>
-					<li><a href="#tabs-2">Partenaires</a></li>
-					<li><a href="#tabs-3">Membres</a></li>
-					<li><a href="#tabs-4">Publications</a></li>
-					<li><a href="#tabs-5">Carte</a></li>
+			<div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+				<h2 class="nom"><?= $groupe->nom ?></h2>
+				<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+					<li class="ui-state-default ui-corner-top ui-tabs-selected ui-state"><a href="<?=base_url();?>groupe/details/<?= $groupe->id_groupe ?>/infos">Infos</a></li>
+					<li class="ui-state-default ui-corner-top ui-tabs-selected ui-state"><a href="<?=base_url();?>groupe/details/<?= $groupe->id_groupe ?>/partenaires">Partenaires</a></li>
+					<li class="ui-state-default ui-corner-top ui-tabs-selected ui-state"><a href="<?=base_url();?>groupe/details/<?= $groupe->id_groupe ?>/members">Membres</a></li>
+					<li class="ui-state-default ui-corner-top ui-tabs-selected ui-state"><a href="#tabs-4">Publications</a></li>
+					<li class="ui-state-default ui-corner-top ui-tabs-selected ui-state"><a href="#tabs-5">Carte</a></li>
 					<?php
 					if(isset($est_admin) && $est_admin) : ?>
 						<li><a href="#tabs-6">Administration</a></li>
@@ -53,45 +54,43 @@
 					<div class="clear"></div>
 				<?php endif;?>
 				
-				<div class="block_content ui-tabs-panel ui-widget-content">
-					<p class="avatar"><img src="<?= $groupe->avatar != null ? img_upload_path().$groupe->avatar : img_upload_path().'group_default.png' ?>" width="150px" height="150px" alt="Groupe <?= $groupe->nom ?>" /></p>
-					<h2 class="nom"><?= $groupe->nom ?></h2>
-					<p class="date">Groupe créé le <?= time_to_str($groupe->date_creation) ?> par <?= isset($admin) ? '<a href="'.base_url().'utilisateur/profil/'.$admin->id_utilisateur.'">'.$admin->prenom.' '.$admin->nom.'</a>' : "un administrateur"; ?></p>
-					<p>
-						<span class="nbpartenaires"><strong><?= $nb_partenaires ?></strong> <?= plural('groupe', $nb_partenaires).' '.plural('partenaire', $nb_partenaires) ?></span><br />
-						<span class="nbmembres"><strong><?= $nb_membres ?></strong> <?= plural('membre', $nb_membres) ?></span><br />
-						<span class="nbfavoris"><strong><?= $nb_favoris ?></strong> <?= plural('sélection', $nb_favoris) ?> comme favoris</span><br />
-					</p>
-					<p>
-						<?php if($liste_tags->num_rows()>0): ?>
-							<?php foreach($liste_tags->result() as $tag): ?>
-							<span class="tag_link"><a href="<?= base_url().'tag/search/'.$tag->id_tag ?>"><?= $tag->libelle ?></a>
-							<?php if(isset($est_admin) && $est_admin == TRUE) { ?>
-								<img src="<?=base_url()?>images/icons/delete.png" alt="supprimer" title="supprimer" rel="<?=$tag->id_tag?>" />
-							<?php } ?>
-							</span>
-							<?php endforeach; ?>
-						<?php endif; ?>
-                    </p>
-					<?php if(isset($est_admin) && $est_admin == TRUE): ?>
-						<p><a href="#" id="toggle_ajout_tag">Ajouter des tags</a></p>
-						<div id="ajout_tag" >
-							<form method="post" action="<?= base_url() ?>groupe/ajout_tag_groupe/<?= $groupe->id_groupe?>">
-								<table>
-									<tr>
-										<td><label for="tag">Tags&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></td>
-										<td><input name="tags" id="tags" type="text" /></td>
-										<td colspan="2" align="right"><input class="button" type="submit" value="Valider" role="button" id="valider_tags" /></td>
-										<td><i>*Séparez chaque tag par une virgule</i></td>
-									</tr>
-								</table>
-							</form>
-						</div>
-					<?php endif; ?>
-					<div id="tags_result"></div>
-				</div>
-				
 				<div id="tabs-1">
+					<div class="block_content ui-tabs-panel ui-widget-content">
+						<p class="avatar"><img src="<?= $groupe->avatar != null ? img_upload_path().$groupe->avatar : img_upload_path().'group_default.png' ?>" width="150px" height="150px" alt="Groupe <?= $groupe->nom ?>" /></p>
+						<p class="date">Groupe créé le <?= time_to_str($groupe->date_creation) ?> par <?= isset($admin) ? '<a href="'.base_url().'utilisateur/profil/'.$admin->id_utilisateur.'">'.$admin->prenom.' '.$admin->nom.'</a>' : "un administrateur"; ?></p>
+						<p>
+							<span class="nbpartenaires"><strong><?= $nb_partenaires ?></strong> <?= plural('groupe', $nb_partenaires).' '.plural('partenaire', $nb_partenaires) ?></span><br />
+							<span class="nbmembres"><strong><?= $nb_membres ?></strong> <?= plural('membre', $nb_membres) ?></span><br />
+							<span class="nbfavoris"><strong><?= $nb_favoris ?></strong> <?= plural('sélection', $nb_favoris) ?> comme favoris</span><br />
+						</p>
+						<p>
+							<?php if($liste_tags->num_rows()>0): ?>
+								<?php foreach($liste_tags->result() as $tag): ?>
+								<span class="tag_link"><a href="<?= base_url().'tag/search/'.$tag->id_tag ?>"><?= $tag->libelle ?></a>
+								<?php if(isset($est_admin) && $est_admin == TRUE) { ?>
+									<img src="<?=base_url()?>images/icons/delete.png" alt="supprimer" title="supprimer" rel="<?=$tag->id_tag?>" />
+								<?php } ?>
+								</span>
+								<?php endforeach; ?>
+							<?php endif; ?>
+			    </p>
+						<?php if(isset($est_admin) && $est_admin == TRUE): ?>
+							<p><a href="#" id="toggle_ajout_tag">Ajouter des tags</a></p>
+							<div id="ajout_tag" >
+								<form method="post" action="<?= base_url() ?>groupe/ajout_tag_groupe/<?= $groupe->id_groupe?>">
+									<table>
+										<tr>
+											<td><label for="tag">Tags&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></td>
+											<td><input name="tags" id="tags" type="text" /></td>
+											<td colspan="2" align="right"><input class="button" type="submit" value="Valider" role="button" id="valider_tags" /></td>
+											<td><i>*Séparez chaque tag par une virgule</i></td>
+										</tr>
+									</table>
+								</form>
+							</div>
+						<?php endif; ?>
+						<div id="tags_result"></div>
+					</div>
 					<div class="description">
 						<?php if(isset($est_admin) && $est_admin): ?>
 							<input type="hidden" id="id_groupe_modif" value="<?= $groupe->id_groupe ?>" />
@@ -136,7 +135,7 @@
 					</div>
 				</div>
 				
-				<div id="tabs-4">
+				<div id="tabs-4" style="display:none;">
 					<div class="description listing">
 						<?php if(isset($liste_publications) && count($liste_publications) > 0) : foreach($liste_publications as $publication): ?>
 							<div class="publication">
