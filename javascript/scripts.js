@@ -1,7 +1,7 @@
 $(function() {
 	
 	// Onglets pour le bloc de gauche
-	$('div#tabs').tabs({ cookie: {} });
+	//$('div#tabs').tabs({ cookie: {} });
 	
 	// Mise en forme des bouttons avec jquery-ui
 	$('input.button, a.button').button();
