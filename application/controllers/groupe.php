@@ -1,5 +1,7 @@
 <?php
 class Groupe extends CI_Controller {
+
+	private $gpc_cleaner;
 	
 	function __construct()
 	{
@@ -8,9 +10,9 @@ class Groupe extends CI_Controller {
 		$this->load->helper('html');
 		$this->load->helper('form');
 		$this->load->library('form_validation');
-		
 		$this->data = array();
-		
+		$this->gpc_cleaner = new CI_Input();	
+	
 		// Chargement des modèles
 		$this->load->Model('Publication_model');
 		$this->load->Model('Publication_info_model');
@@ -158,14 +160,34 @@ class Groupe extends CI_Controller {
 		$this->load->view('template', $this->data);
 	}
 	
-	public function details($id_url = null) {		
+	public function details($id_url = null, $id_tab="info") {
 		if($id_url != null) {
-			$tag = new Tag_model();
-			$groupe = new Groupe_model();
-			$groupe->id_groupe = $id_url;
-			$groupe->get_details();
-			$this->data['groupe'] = $groupe; // On peut aussi mettre $groupe->get_details() ici
-
+//error_log($this->data['nb_partenaires'], 3, "/Users/mourad/hyperEspace/wannagreen/php_error.log");
+			switch($id_tab){
+				case "partenaires" :
+					// Récupère la liste des partenaires du groupe
+                        		$this->data['liste_partenaires'] = $this->Groupe_model->get_liste_partenaire($id_url);
+                        		$this->data['nb_partenaires'] = count($this->data['liste_partenaires']); // JR_TO DO : même méthode que pour nb membres et favoris
+				break;
+				case "members" :
+					// Récupère la liste des membres du groupe
+                        		$this->data['liste_membres'] = $this->Utilisateur_model->liste_membre_groupe($id_url, "membre", 1)->result(); //members
+				break;
+				case "infos" :
+				default :
+					$groupe = new Groupe_model();
+					$groupe->id_groupe = $id_url;
+					$groupe->get_details();
+					$this->data['groupe'] = $groupe;
+					$tag = new Tag_model();
+					 // Récupère le nombre de membres et de favoris du groupe
+                        		$this->data['nb_membres'] = $this->nb_membres($id_url); //info
+                  		        $this->data['nb_favoris'] = $this->nb_favoris($id_url); //info
+        		                // Liste des tags associés au groupe
+                        		$this->data['liste_tags']= $tag->get_tag_groupe($id_url);
+					$this->data['liste_partenaires_demandes'] = $groupe->get_liste_partenaire($groupe->id_groupe, FALSE);
+			}
+			
 			// Récupère l'administrateur du groupe
 			$this->load->Model('Utilisateur_model');
 			$this->data['admin'] = $this->Utilisateur_model->get_admin($id_url);
@@ -179,31 +201,13 @@ class Groupe extends CI_Controller {
 				// Récupère la liste des groupes dont l'utilisateur n'est pas l'admin et qui ne sont pas déjà dans les partenaires
 				$this->data['liste_partenaires_possibles'] = $this->Groupe_model->liste_partenaire_possible($id_utilisateur, $id_url);
 				
-				$this->data['est_admin'] = FALSE;				
+				$this->data['est_admin'] = FALSE;
 				// Vérifie si l'utilisateur connecté est l'admin du groupe
 				if($id_utilisateur == $this->data['admin']->id_utilisateur) {
 					$this->data['est_admin'] = TRUE;
 					$this->data['liste_membres_attente'] = $this->Utilisateur_model->liste_membre_groupe($id_url, "membre", 0)->result();
 				}
 			}
-			
-			// Récupère le nombre de membres et de favoris du groupe
-			$this->data['nb_membres'] = $this->nb_membres($id_url);
-			$this->data['nb_favoris'] = $this->nb_favoris($id_url);
-			
-			// Récupère la liste des membres du groupe
-			$this->data['liste_membres'] = $this->Utilisateur_model->liste_membre_groupe($id_url, "membre", 1)->result();
-			
-			// Récupère la liste des partenaires du groupe
-			$this->data['liste_partenaires'] = $this->Groupe_model->get_liste_partenaire($id_url);
-			
-			$this->data['nb_partenaires'] = count($this->data['liste_partenaires']); // JR_TO DO : même méthode que pour nb membres et favoris
-			
-			//$this->data['nb_partenaires'] = $query->num_rows();
-			
-			// Liste des tags associés au groupe
-			$this->data['liste_tags']= $tag->get_tag_groupe($id_url);
-			
 			
 			/*** Publications ***/
 			$publication = new Publication_model();
@@ -221,8 +225,6 @@ class Groupe extends CI_Controller {
 				$publication->tags = $this->Tag_model->get_tag_publication($publication->id_publication);
 			}
 			$this->data['liste_publications'] = $liste_publication;
-			
-			$this->data['liste_partenaires_demandes'] = $groupe->get_liste_partenaire($groupe->id_groupe, FALSE);
 		}
 		
 		$this->data['module'] = 'groupe_details';
