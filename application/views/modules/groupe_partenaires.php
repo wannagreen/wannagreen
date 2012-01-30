@@ -1,8 +1,3 @@
-<script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAKmeySfm8d1vUqvFQXc4G4BTI5KWAflYCsY9uh3NdOQum1dxXxBRdphD8px44o9tSgIXMAbhiHHof9A"></script>
-<!--online:
-<script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAKmeySfm8d1vUqvFQXc4G4BS7GLwa-Cv_qXqb8x7KTdicjA1TxxRvMqHnbyHAS6Eg-D09G4U9alVWOw"></script>
--->
-<script type="text/javascript" src="<?= base_url() ?>javascript/gmap_render.js"></script>
 <div id="module">
 	<?php if(isset($groupe)): ?>
 		<div id="groupe_details" class="profil_details">
