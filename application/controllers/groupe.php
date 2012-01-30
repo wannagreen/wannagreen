@@ -160,21 +160,60 @@ class Groupe extends CI_Controller {
 		$this->load->view('template', $this->data);
 	}
 	
+        
 	public function details($id_url = null, $id_tab="info") {
+            
 		if($id_url != null) {
-//error_log($this->data['nb_partenaires'], 3, "/Users/mourad/hyperEspace/wannagreen/php_error.log");
-			switch($id_tab){
+                        //error_log($this->data['nb_partenaires'], 3, "/Users/mourad/hyperEspace/wannagreen/php_error.log");
+			   
+                        $tag = new Tag_model();
+			$groupe = new Groupe_model();
+			$groupe->id_groupe = $id_url;
+			$groupe->get_details();
+			$this->data['groupe'] = $groupe; // On peut aussi mettre $groupe->get_details() ici
+                        
+			// Récupère l'administrateur du groupe
+			$this->load->Model('Utilisateur_model');
+			$this->data['admin'] = $this->Utilisateur_model->get_admin($id_url);
+			
+			// Vérifie le lien entre l'utilisateur (si connecté) et le groupe
+			$id_utilisateur = $this->session->userdata('id_utilisateur');
+                        
+                        switch($id_tab){
+                            
 				case "partenaires" :
 					// Récupère la liste des partenaires du groupe
                         		$this->data['liste_partenaires'] = $this->Groupe_model->get_liste_partenaire($id_url);
                         		$this->data['nb_partenaires'] = count($this->data['liste_partenaires']); // JR_TO DO : même méthode que pour nb membres et favoris
 				break;
+                                
 				case "members" :
 					// Récupère la liste des membres du groupe
                         		$this->data['liste_membres'] = $this->Utilisateur_model->liste_membre_groupe($id_url, "membre", 1)->result(); //members
 				break;
-				case "infos" :
-				default :
+                            
+                                case "publications":
+                                        $publication = new Publication_model();
+						
+                                        if((isset($this->data['adhesion']) && $this->data['adhesion']) || (isset($this->data['est_admin']) && $this->data['est_admin'])) {
+                                            $liste_publication = $publication->get_publication_by_id_groupe($id_url);
+                                        }
+                                        else {
+                                            $liste_publication = $publication->get_publication_publique_by_id_groupe($id_url);
+                                        }
+	
+                                        foreach ($liste_publication as $publication) {
+                                            $publication->info = $this->Publication_info_model->get_by_id_publication($publication->id_publication);
+                                            $publication->commentaires = $this->Commentaire_model->get_by_id_publication($publication->id_publication);
+                                            $publication->tags = $this->Tag_model->get_tag_publication($publication->id_publication);
+                                        }
+                                        $this->data['liste_publications'] = $liste_publication;
+			
+                                        $this->data['liste_partenaires_demandes'] = $groupe->get_liste_partenaire($groupe->id_groupe, FALSE);
+                                        //case "infos" :
+                                break;
+                                    
+                                default :
 					$groupe = new Groupe_model();
 					$groupe->id_groupe = $id_url;
 					$groupe->get_details();
@@ -183,6 +222,8 @@ class Groupe extends CI_Controller {
 					 // Récupère le nombre de membres et de favoris du groupe
                         		$this->data['nb_membres'] = $this->nb_membres($id_url); //info
                   		        $this->data['nb_favoris'] = $this->nb_favoris($id_url); //info
+                                        //$this->data['nb_partenaires'] = count($this->data['liste_partenaires']); // JR_TO DO : même méthode que pour nb membres et favoris
+                                        
         		                // Liste des tags associés au groupe
                         		$this->data['liste_tags']= $tag->get_tag_groupe($id_url);
 					$this->data['liste_partenaires_demandes'] = $groupe->get_liste_partenaire($groupe->id_groupe, FALSE);
@@ -208,27 +249,60 @@ class Groupe extends CI_Controller {
 					$this->data['liste_membres_attente'] = $this->Utilisateur_model->liste_membre_groupe($id_url, "membre", 0)->result();
 				}
 			}
+                        // Récupère le nombre de membres et de favoris du groupe
+			$this->data['nb_membres'] = $this->nb_membres($id_url);
+			$this->data['nb_favoris'] = $this->nb_favoris($id_url);
 			
-			/*** Publications ***/
-			$publication = new Publication_model();
-						
-			if((isset($this->data['adhesion']) && $this->data['adhesion']) || (isset($this->data['est_admin']) && $this->data['est_admin'])) {
-				$liste_publication = $publication->get_publication_by_id_groupe($id_url);
-			}
-			else {
-				$liste_publication = $publication->get_publication_publique_by_id_groupe($id_url);
-			}
-	
-			foreach ($liste_publication as $publication) {
-				$publication->info = $this->Publication_info_model->get_by_id_publication($publication->id_publication);
-				$publication->commentaires = $this->Commentaire_model->get_by_id_publication($publication->id_publication);
-				$publication->tags = $this->Tag_model->get_tag_publication($publication->id_publication);
-			}
-			$this->data['liste_publications'] = $liste_publication;
+			// Récupère la liste des membres du groupe
+			$this->data['liste_membres'] = $this->Utilisateur_model->liste_membre_groupe($id_url, "membre", 1)->result();
+			
+			// Récupère la liste des partenaires du groupe
+			$this->data['liste_partenaires'] = $this->Groupe_model->get_liste_partenaire($id_url);
+			
+			$this->data['nb_partenaires'] = count($this->data['liste_partenaires']); // JR_TO DO : même méthode que pour nb membres et favoris
+			
+			//$this->data['nb_partenaires'] = $query->num_rows();
+			
+			// Liste des tags associés au groupe
+			$this->data['liste_tags']= $tag->get_tag_groupe($id_url);
+			
 		}
 		
-		$this->data['module'] = 'groupe_details';
-		$this->load->view('template', $this->data);
+                if($id_tab=="partenaires")
+                {
+                    $this->data['module'] = 'groupe_partenaires';
+                    $this->load->view('template', $this->data);
+                }
+                if($id_tab=="members")
+                {
+                    $this->data['module'] = 'groupe_members';
+                    $this->load->view('template', $this->data);
+                }
+                if($id_tab=="publications")
+                {
+                    $this->data['module'] = 'groupe_publications';
+                    $this->load->view('template', $this->data);
+                }
+                if($id_tab=="carte")
+                {
+                    $this->data['module'] = 'groupe_carte';
+                    $this->load->view('template', $this->data);
+                }
+                if($id_tab=="administration")
+                {
+                    $this->data['module'] = 'groupe_administration';
+                    $this->load->view('template', $this->data);
+                }
+                if($id_tab=="infos")
+                {
+                    $this->data['module'] = 'groupe_infos';
+                    $this->load->view('template', $this->data);
+                }
+                if($id_tab!="partenaires" && $id_tab!="members" && $id_tab!="publications" && $id_tab!="carte" && $id_tab!="administration" && $id_tab!="infos")
+                {
+                    $this->data['module'] = 'groupe_infos';
+                    $this->load->view('template', $this->data);
+                }
 	}
 	
 	function liste_groupes_partenariat_possible()
