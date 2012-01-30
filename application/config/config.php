@@ -1,5 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+date_default_timezone_set('Europe/Paris');
+
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
@@ -126,7 +128,7 @@ $config['subclass_prefix'] = 'MY_';
 | DO NOT CHANGE THIS UNLESS YOU FULLY UNDERSTAND THE REPERCUSSIONS!!
 |
 */
-$config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
+$config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-@';
 
 
 /*
@@ -224,7 +226,8 @@ $config['cache_path'] = '';
 | MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = '8c1ce609e453az';
+//$config['encryption_key'] = '8c1ce609e453az';
+$config['encryption_key'] = '17uj8idt7Jej89';
 
 /*
 |--------------------------------------------------------------------------
@@ -315,7 +318,7 @@ $config['csrf_expire'] = 7200;
 | by the output class.  Do not 'echo' any values with compression enabled.
 |
 */
-$config['compress_output'] = TRUE;
+$config['compress_output'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
