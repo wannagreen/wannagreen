@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 class Utilisateur_model extends CI_Model {
 	
 	var $id_utilisateur = null;
@@ -99,6 +99,7 @@ class Utilisateur_model extends CI_Model {
 	/*function qui return true si la combinaison email password est correcte*/
 	function valid_connection()
 	{
+error_log("$this->email == null || $this->password == null)", 3, "/Users/mourad/hyperEspace/wannagreen/php_error.log" );
 		if($this->email == null || $this->password == null)
 			return FALSE;
 		else {
@@ -117,6 +118,7 @@ class Utilisateur_model extends CI_Model {
 				$this->date_creation = $query->row()->date_creation;
 				$this->date_maj = $query->row()->date_maj;
 			}
+error_log("res=".print_r($result,1), 3, "/Users/mourad/hyperEspace/wannagreen/php_error.log" );
 			return $result;
 		}
 	}
@@ -250,7 +252,7 @@ class Utilisateur_model extends CI_Model {
 				 ->limit($limit);
 		$query = $this->db->get();
 		return $query->result();
-    }
+   	}
 	
 	/*function qui retourne vrai si l'utilisateur est membre/favoris du groupe*/
 	function deja_membre ($id_utilisateur, $id_groupe)
@@ -274,5 +276,28 @@ class Utilisateur_model extends CI_Model {
 					->limit(1);
 		$query=$this->db->get();
 		return $query->row();
+	}
+
+	/**
+	 * retourne le mot de passe associe a un email
+	 * @email string 
+	 * @return array
+	 */
+	function getPasswordByMail($_email){
+		$this->db->select('password')
+				 ->from('utilisateur')
+				 ->where('email' , $_email)
+				 ->limit(1);
+		$query = $this->db->get();
+		return $query->result();
+	}
+
+	function updatePassword($_pwd, $_email=NULL){
+		if($_email===NULL)
+                {
+                    $_email=$this->email;
+                }
+		$this->db->where('email', $_email);
+		return $this->db->update('utilisateur', array('password'=>$_pwd));
 	}
 }
