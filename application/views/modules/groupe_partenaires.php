@@ -20,6 +20,11 @@
                     
                     <div id="tabs-2">
 					<div id="partenaire_liste" class="description listing">
+                                        
+                                            <span class="nbpartenaires"><strong><?= $nb_partenaires ?></strong> <?= plural('groupe', $nb_partenaires).' '.plural('partenaire', $nb_partenaires) ?></span><br /><br/>
+                                           
+                                        </div>
+                        
 					<?php if(isset($liste_partenaires) && count($liste_partenaires) > 0):
 							foreach($liste_partenaires as $partenaire): ?>
 						<div class="groupe">

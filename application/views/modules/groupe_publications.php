@@ -18,10 +18,31 @@
 				
 			</div>
                     
-                   <div id="tabs-4">
+                        <div id="tabs-4">
+                            
 					<div class="description listing">
-						<?php if(isset($liste_publications) && count($liste_publications) > 0) : foreach($liste_publications as $publication): ?>
-							<div class="publication">
+                                            
+                                            <?php 
+                                            $nbPub = count($liste_publications);
+                                            
+                                            if($nbPub == '0' || $nbPub == '1')
+                                            {
+                                                ?>
+                                                 <span class="nbpublications"><strong><?= $nbPub ?></strong> <?= plural('publication', $nbPub) ?></span><br /><br/>
+                                                <?php
+                                            }
+                                            else
+                                            {
+                                                ?>
+                                                <span class="nbpublications"><strong><?= $nbPub = count($liste_publications) ?></strong> <?= plural('publication', $nbPub) ?></span><br /><br/>
+                                                <?php
+                                            }
+                                            ?>
+                                                
+                                                
+                                                  <?php if(isset($liste_publications) && count($liste_publications) > 0) : foreach($liste_publications as $publication): ?>
+							
+                                                    <div class="publication">
 								<?php if($publication->id_utilisateur == $this->session->userdata('id_utilisateur')):
 										if ($publication->type == 'article') :?> 
 											<a href="<?= base_url() ?>publication/modification_publication/<?= $publication->id_publication?>" class="edit" id="clic_modif_article">Modifier</a>

@@ -20,17 +20,23 @@
                     
                     <div id="tabs-3">
 					<div id="membre_liste" class="description listing">
-					<?php if(isset($liste_membres) && count($liste_membres) > 0): foreach($liste_membres as $membre): ?>
-						<div class="utilisateur">
-							<p class="avatar"><img src="<?= $membre->avatar != null ? img_upload_path().filename_to_thumb($membre->avatar) : img_upload_path().filename_to_thumb('user_default.png') ?>" alt="Membre <?= $membre->prenom.' '.$membre->nom ?>" /></p>
-							<h3 class="nom"><a href="<?= base_url() ?>utilisateur/profil/<?= $membre->id_utilisateur?>"><?= $membre->prenom.' '.$membre->nom ?></a></h3>
-						</div>
-					<?php endforeach;
-						else: ?>
-							<p>Il n'y a aucun membre dans ce groupe</p>
-						<?php
-						endif;
-					?>
+                                            
+                                        <span class="nbmembres"><strong><?= $nb_membres ?></strong> <?= plural('membre', $nb_membres) ?></span><br /><br/>
+                                        
+                                        <br/>
+                                        
+                                    <?php if(isset($liste_membres) && count($liste_membres) > 0): foreach($liste_membres as $membre): ?>
+					<div class="utilisateur">
+						<p class="avatar"><img src="<?= $membre->avatar != null ? img_upload_path().filename_to_thumb($membre->avatar) : img_upload_path().filename_to_thumb('user_default.png') ?>" alt="Membre <?= $membre->prenom.' '.$membre->nom ?>" /></p>
+						<h3 class="nom"><a href="<?= base_url() ?>utilisateur/profil/<?= $membre->id_utilisateur?>"><?= $membre->prenom.' '.$membre->nom ?></a></h3>
+					</div>
+                                    <?php endforeach;
+                                        
+					else: ?>
+						<p>Il n'y a aucun membre dans ce groupe</p>
+					<?php
+					endif;
+                                    ?>
 					</div>
                     </div>
                     
