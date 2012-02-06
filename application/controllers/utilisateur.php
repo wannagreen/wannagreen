@@ -434,7 +434,7 @@ class Utilisateur extends CI_Controller {
             $this->data['user_connected'] = TRUE;
             $id_utilisateur = $this->session->userdata('id_utilisateur');
             $this->data = array_merge($this->data, $this->Groupe_model->listes_groupes($id_utilisateur));
-                        redirect('accueil');
+            redirect('accueil');
         }
         
         //redirect('accueil');
@@ -450,18 +450,23 @@ class Utilisateur extends CI_Controller {
                 $user_model = new Utilisateur_model();
                 $pwd = $user_model->getPasswordByMail($this->input->post('email'));
                 if(!empty($pwd)){
+                    $this->load->helper('language');
                     $this->load->library('email');
-                    //ini_set("SMTP","server9.000webhost.com");
-                    //ini_set("sendmail_from","admin@wannagreen.site88.net");
                     $this->email->from('admin@wannagreen.site88.net', 'Administrateur');
                     $this->email->to($this->input->post('email')); 
                     $userinfo = $pwd[0];
-                    $this->email->subject('Email Test');
-                    $this->email->message(base_url().'utilisateur/modifyPassword/'.$this->input->post('email').'/'.$userinfo->password); 
+                    $this->lang->load('forgotten_password','francais');
+                    $this->email->subject($this->lang->line('mail_subject'));
+                    $url = base_url().'utilisateur/modifyPassword/'.$this->input->post('email').'/'.$userinfo->password;
+                    $email_body = str_replace('***********MAIL_LINK***********',$url,$this->lang->line('mail_text'));
+                    $this->email->message($email_body); 
                     $this->email->send();
-                    echo $this->email->print_debugger();
                     $this->data['showSendSuccess']=TRUE;
                     $this->data['showSendFail']=FALSE;
+                }
+                else
+                {
+                    $this->data['showEmailForm']=TRUE;
                 }
             }
         }
@@ -479,7 +484,7 @@ class Utilisateur extends CI_Controller {
         $cookie = array(
         'name'   => 'authData',
         'value'  => $encrypted_string,
-        'expire' => '600000',
+        'expire' => '300',
             'domain' => '.wannagreen.com.dev'
         );
         $this->input->set_cookie($cookie);
@@ -489,7 +494,6 @@ class Utilisateur extends CI_Controller {
     }
     
     public function updatePassword(){
-        // TODO : verifier cohÈrence mot de passe
         $this->_initForgottenPasswordVars();
         if($this->input->post('pwd')!=NULL){
             $this->load->library('encrypt');
@@ -500,18 +504,26 @@ class Utilisateur extends CI_Controller {
                 $user_model = new Utilisateur_model();
                 $user_model->password = $decrypted_string[1];
                 $user_model->email = $decrypted_string[0];
-                $res = $user_model->valid_connection();
                 if($user_model->valid_connection()){
                      $this->load->helper('mysecurity');
                      $pwd = crypt_password($this->input->post('pwd'));
                      $user_model->updatePassword($pwd);
+                     $sess_infos = array(
+                         'is_connected' => TRUE,
+                         'id_utilisateur' => $user_model->id_utilisateur,
+                         'email' => $user_model->email,
+                         'nom' => $user_model->nom,
+                         'prenom' => $user_model->prenom
+                     );
+                     $this->session->set_userdata($sess_infos);
+                     delete_cookie('authData');
+                     redirect('accueil');
                 }
             }
         }
-        else
-        {
-             $this->data['updateError']=TRUE;
-        }
+        
+        $this->data['showPasswordForm'] = TRUE;
+        $this->data['updateError']=TRUE;
         $this->data['module'] = 'forgottenPassword';
         $this->load->view('template', $this->data);
     }
