@@ -28,9 +28,11 @@ class Accueil extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->data['twttr_feed'] = $this->get_twitter_feed($this->default_search);
+	redirect(base_url()."publication/accueil_recente");
+		/*$this->data['twttr_feed'] = $this->get_twitter_feed($this->default_search);
 		$this->data['module'] = 'accueil';
-		$this->load->view('template', $this->data);
+		$this->data['liste'] = 'publications_recentes';
+		$this->load->view('template', $this->data);*/
 	}
 	
 	public function twitter_search()
