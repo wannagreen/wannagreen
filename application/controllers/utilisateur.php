@@ -276,6 +276,55 @@ class Utilisateur extends CI_Controller {
         $this->load->view('template', $this->data);
     }
     
+	/**
+	* Block inscription simple sur l'accueil
+	*/
+	public function creer_simple()
+    {
+        $this->load->library('upload');
+        
+        $this->form_validation->set_error_delimiters('<li>', '</li>');
+        
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email|max_length[128]');
+        $this->form_validation->set_rules('password', 'Mot de passe', 'required|matches[passwordconf]');
+        $this->form_validation->set_rules('passwordconf', 'de confirmation du Mot de passe', 'required|matches[password]');
+        $this->form_validation->set_rules('nom', 'Nom', 'trim|required|max_length[64]|htmlspecialchars');
+        $this->form_validation->set_rules('prenom', 'Prénom', 'trim|required|max_length[64]|htmlspecialchars');
+       
+        
+        if($this->form_validation->run()) {
+            $user = new Utilisateur_model();
+            $user->email = $this->input->post('email');
+            if(!$user->email_exists()) {
+                $this->load->helper('mysecurity');
+                $user->nom = $this->input->post('nom');
+                $user->prenom = $this->input->post('prenom');
+                $user->password = crypt_password($this->input->post('password'));
+				
+				 if($user->create()) {
+                            $this->data['notice'] = 'Le compte a bien été créé, vous pouvez maintenant vous connecter';
+                            $this->data['notice_type'] = 'success';
+                        }
+                        else {
+                            $this->data['notice'] = 'Une erreur de traitement s\'est produite, merci de rééssayer';
+                            $this->data['notice_type'] = 'error';
+                        }
+						
+				}else
+				{
+				$this->data['notice'] = 'Cet email est déjà utilisé par un utilisateur';
+                $this->data['notice_type'] = 'error';
+				}
+        $this->data['context'] = $this->load->view('notice', $this->data, TRUE);
+		}
+		
+		
+		
+		$this->data['liste'] = 'publications_recentes';
+		$this->data['module'] = isset($this->data['notice_type']) && $this->data['notice_type'] === 'success' ? 'utilisateur_creer_simple' : 'utilisateur_creer_simple';
+        $this->load->view('template', $this->data);
+	}
+	
     /**
      * Affiche tous les utilisateurs
      */
@@ -421,7 +470,7 @@ class Utilisateur extends CI_Controller {
                     
                     $data['erreur'] = true;*/
                     //$this->load->view('template', $data);
-                    redirect('erreurconnexion');
+                  redirect(base_url()."publication/erreurconnexion_accueil_recente");
         }
                
         /*else
