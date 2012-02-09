@@ -56,19 +56,23 @@
                                     foreach($publication->info as $info) : 
                                     
                                                 if($info->libelle == 'titre') : ?>
-						<h3 class="nom"><?= $info->contenu ?></h3>
-						<?php endif;?>
-					
-                                <?php endforeach;     
-                                    
-                                    foreach($publication->info as $info) : 
+						<h3 class="nom"><?= $info->contenu ?>
+                                                
+                                                <?php
+                                                foreach($publication->info as $info) : 
                                     
                                                 if($info->libelle == 'url') : ?>
-						<a href=<?= $info->contenu ?> class="_blank"><?= $info->contenu ?></a>
+						(<a href=<?= $info->contenu ?> class="_blank"><?= $info->contenu ?></a>)
 						<?php endif;?>
 					
-                                <?php endforeach;
+                                                 <?php endforeach; ?>
 					
+						<?php endif;?>
+                                                </h3>
+                        
+                                <?php endforeach;     
+                                    
+                                   
                                      foreach($publication->info as $info) : 
                                     
                                                 if($info->libelle == 'description') : ?>
