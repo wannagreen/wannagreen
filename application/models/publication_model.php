@@ -41,7 +41,7 @@ class Publication_model extends CI_Model {
 		$this->date_creation = $query->row()->date_creation;
 		$this->date_maj = $query->row()->date_maj;
 		$this->id_utilisateur =$query->row()->id_utilisateur;
-		}
+	}
 	
 	function get_publication_by_id_groupe ($id_groupe)
 	{
@@ -81,13 +81,16 @@ class Publication_model extends CI_Model {
 	
 	function get_publication_by_id_tag($id_tag)
 	{
-		$this->db->select('p.id_publication,p.type,p.prive,p.date_creation,p.date_maj,p.id_utilisateur');
+		$this->db->select('p.id_publication,p.type,p.prive,p.date_creation,p.date_maj,p.id_utilisateur,u.prenom,u.nom');
 		$this->db->from('publication p');
 		$this->db->join('tag_publication t','t.id_publication=p.id_publication');
+                $this->db->join('utilisateur u','u.id_utilisateur=p.id_utilisateur');
 		$this->db->where('t.id_tag',$id_tag);
 		$this->db->order_by('p.date_creation','DESC');
 		$query = $this->db->get();
 		return $query->result();
+                
+                
 	}
 	
 	function get_publication_recente($limit=10)

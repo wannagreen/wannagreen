@@ -6,7 +6,7 @@ class Tag_model extends CI_Model {
 	var $date_maj = null;
 	
 	/*
-	* Création/ajout d'un tag
+	* CrÃ©ation/ajout d'un tag
 	*/
 	function create_tag(){
 		$this->date_creation = date_db_format();
@@ -22,7 +22,7 @@ class Tag_model extends CI_Model {
 	
 	
 	/*
-	* Récupère les tags d'un utilisateur
+	* RÃ©cupÃ¨re les tags d'un utilisateur
 	*/
 	function get_tag_utilisateur($id_utilisateur){
 		$this->db->select('t.id_tag, t.libelle');
@@ -34,8 +34,24 @@ class Tag_model extends CI_Model {
 		return $query;
 	}
 	
+        /*
+         * RÃ©cupÃ¨re le libelle Ã  partir de son id 
+         * 
+         */
+        
+        function get_libelle_tag($id_tag)
+        {
+            $this->db->select('t.id_tag, t.libelle');
+		$this->db->from('tag t');
+		$this->db->where('t.id_tag', $id_tag);
+		$query=$this->db->get();
+		
+		return $query->row();
+            
+        }
+        
 	/*
-	* Récupère les tags d'une publication
+	* RÃ©cupÃ¨re les tags d'une publication
 	*/
 	function get_tag_publication($id_publication){
 		$this->db->select('t.id_tag, t.libelle');
@@ -47,7 +63,7 @@ class Tag_model extends CI_Model {
 	}
 
 	/*
-	* Récupère les tags pour une publication et un utilisateur
+	* RÃ©cupÃ¨re les tags pour une publication et un utilisateur
 	*/
 	function get_tag_publication_utilisateur($id_publication,$id_utilisateur){
 		$this->db->select('t.id_tag, t.libelle');
@@ -67,13 +83,14 @@ class Tag_model extends CI_Model {
 		return $this->db->delete('tag_publication');
 	}
 	
+        
 	function get_id_tag(){
 		$query=$this->db->get_where('tag', array('libelle' => $this->libelle));
 		return $query->row();
 	}
 	
 	/*
-	* Vérifie si un tag existe dans la table tag
+	* VÃ©rifie si un tag existe dans la table tag
 	*/
 	function tag_exist(){
 		$query=$this->db->get_where('tag', array('libelle' => $this->libelle));
@@ -82,7 +99,7 @@ class Tag_model extends CI_Model {
 	}
 	
 	/*
-	* Vérifie si utilisateur possède un tag donné
+	* VÃ©rifie si utilisateur possÃ¨de un tag donnÃ©
 	*/
 	function user_possede_tag($id_utilisateur,$id_tag){
 		$this->db->select('id_tag,id_utilisateur');
@@ -94,7 +111,7 @@ class Tag_model extends CI_Model {
 	}
 	
 	/*
-	* Vérifie si un groupe possède un tag donné
+	* VÃ©rifie si un groupe possÃ©de un tag donnÃ©
 	*/
 	function groupe_possede_tag($id_groupe,$id_tag){
 		$this->db->select('id_tag,id_groupe');
@@ -106,7 +123,7 @@ class Tag_model extends CI_Model {
 	}
 	
 	/*
-	* Vérifie si une publication possède un tag donné
+	* VÃ©rifie si une publication possÃ¨de un tag donnÃ©
 	*/
 	function publication_possede_tag($id_publication,$id_tag){
 		$this->db->select('id_publication,id_tag');
@@ -118,7 +135,7 @@ class Tag_model extends CI_Model {
 	}
 	
 	/*
-	* Récupère les tags d'un groupe 
+	* RÃ©cupÃ¨re les tags d'un groupe 
 	*/
 	function get_tag_groupe($id_groupe){
 		$this->db->select('t.id_tag, t.libelle');
@@ -130,7 +147,7 @@ class Tag_model extends CI_Model {
 	}
 	
 	/*
-	* Récupère les tags d'un groupe (seulement ceux ajoutés par l'admin du groupe)
+	* RÃ©cupÃ¨re les tags d'un groupe (seulement ceux ajoutÃ©s par l'admin du groupe)
 	*/
 	function get_tag_groupe_admin($id_groupe){
 		$this->db->select('t.id_tag, t.libelle');
@@ -143,7 +160,7 @@ class Tag_model extends CI_Model {
 		return $query;
 	}
 	
-	//Ajouter des tags à une publication
+	//Ajouter des tags Ã  une publication
 	function add_tag_publication($id_tag,$id_publication,$id_utilisateur){
 		$date_creation = date_db_format();
 		$data = array(
@@ -155,7 +172,7 @@ class Tag_model extends CI_Model {
 		
 	}
 	
-	// Ajouter des tags à un groupe
+	// Ajouter des tags Ã  un groupe
 	function add_tag_groupe($id_tag,$id_groupe,$id_utilisateur){
 		$date_creation = date_db_format();
 		$data = array(
@@ -166,7 +183,7 @@ class Tag_model extends CI_Model {
 		return $this->db->insert('tag_groupe', $data); 	
 	}
 	
-	// Ajouter des tags à un utilisateur
+	// Ajouter des tags Ã  un utilisateur
 	function add_tag_user($id_tag,$id_utilisateur){
 		$date_creation = date_db_format();
 		$data = array(

@@ -392,7 +392,9 @@ class Utilisateur extends CI_Controller {
                 $nb_publication_visible = 0;
                 $publication->visible = FALSE;
                 
-                foreach ($liste_groupe as $groupe) {
+                if(count($liste_groupe)>0)
+                {
+                  foreach ($liste_groupe as $groupe) {
                     // Vérifie le lien entre l'utilisateur (si connecté) et le groupe
                     $id_utilisateur = $this->session->userdata('id_utilisateur');
                     
@@ -423,11 +425,50 @@ class Utilisateur extends CI_Controller {
                         $publication->visible = TRUE;
                     else
                         $publication->visible = FALSE;
+                  }
                 }
+                
+                /* Si pas membre s'un groupe */
+                else {
+                    
+                    $id_utilisateur = $this->session->userdata('id_utilisateur');
+                    
+                    if($publication->prive == 0 || $id_utilisateur == $publication->id_utilisateur) {
+                        $nb_publication_visible += 1;
+                    }
+                    
+                    else {
+                        
+                        if($id_utilisateur != null) {
+                            // Récupère l'administrateur du groupe
+                            $this->load->Model('Utilisateur_model');
+                            //$this->data['admin'] = $this->Utilisateur_model->get_admin($groupe->id_groupe);
+                            $this->data['est_admin'] = FALSE;
+                            // Vérifie si l'utilisateur connecté est l'admin du groupe
+                            if($id_utilisateur == $this->data['admin']->id_utilisateur) {
+                                $this->data['est_admin'] = TRUE;
+                                $this->data['liste_membres_attente'] = $this->Utilisateur_model->liste_membre_groupe($groupe->id_groupe, "membre", 0)->result();
+                            }
+                            
+                            // Vérifie le type d'adhésion de l'utilisateur au groupe
+                            //$this->data['adhesion'] = $this->Utilisateur_model->deja_membre($id_utilisateur, $groupe->id_groupe);
+                            
+                            if($this->data['adhesion'] || $this->data['est_admin']) {
+                                $nb_publication_visible += 1;
+                            }
+                        }
+                    }
+                    if($nb_publication_visible >= 1)
+                        $publication->visible = TRUE;
+                    else
+                        $publication->visible = FALSE;
+                }
+
+}
             }
             $this->data['liste_publications'] = $liste_publication;
             
-        }
+        //}
         
         $this->data['module'] = 'utilisateur_profil';
         $this->load->view('template', $this->data);

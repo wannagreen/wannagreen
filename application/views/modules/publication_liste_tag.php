@@ -1,12 +1,11 @@
 <div id="module" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
 	<div class="block_header ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
-		<?php if($liste == 'publications_recentes') :?> 
-			<h1>Publications récentes </h1>
-		<?php endif;?> 
+		   
+                <?php if($liste == 'publications_recentes_tag') :?> 
                         
-		<?php if($liste == 'mes_publications') :?> 
-			<h1>Mes publications</h1>
-		<?php endif;?> 
+			<h1>Publications récentes sur le tag '<?php echo $tags->libelle; ?>'</h1>
+		<?php endif;?>     
+                   
 	</div>
 	<div id="publication_liste" class="listing block_content ui-tabs-panel ui-widget-content ui-corner-bottom">
 		<div class="description listing">
@@ -16,22 +15,22 @@
                   <?php endif;?>  
                   
 		  <?php if(isset($liste_publications) && count($liste_publications) > 0) : foreach($liste_publications as $publication): ?>
-                    
-			<?php if($liste == 'mes_publications' && $publication->id_utilisateur == $this->session->userdata('id_utilisateur')):
-						if ($publication->type == 'article') :?> 
-							<a href="<?= base_url() ?>publication/modification_publication/<?= $publication->id_publication?>" class="edit" id="clic_modif_article">Modifier</a>
+                     
+                     <?php
+			/*************
+                      * Concerne les publications concernant un tag précis
+                      */    
+                     ?>
+                     
+                     <?php if($liste == 'publications_recentes_tag' && /*$publication->groupe != null &&*/ $publication->id_utilisateur == $this->session->userdata('id_utilisateur') /*&& $publication->visible*/):
+				if ($publication->type == 'article') :?> 
+					<a href="<?= base_url() ?>publication/modification_publication/<?= $publication->id_publication?>" class="edit" id="clic_modif_article">Modifier</a>
 				<?php endif; ?>
-					<a href="<?= base_url() ?>publication/supprimer/<?=$liste ?>/<?= $publication->id_publication?>" class="delete" id="clic_suppr_publication">Supprimer</a> 
-			<?php endif;?>
                                         
-                       <?php if($liste == 'publications_recentes' && /*$publication->groupe != null &&*/ $publication->id_utilisateur == $this->session->userdata('id_utilisateur') /*&& $publication->visible*/):
-						if ($publication->type == 'article') :?> 
-							<a href="<?= base_url() ?>publication/modification_publication/<?= $publication->id_publication?>" class="edit" id="clic_modif_article">Modifier</a>
-				<?php endif; ?>
-                                                        <a href="<?= base_url() ?>publication/supprimer/<?=$liste ?>/<?= $publication->id_publication?>" class="delete" id="clic_suppr_publication">Supprimer</a> 
-			<?php endif;?> 
-                                    
-			<?php if($liste == 'publications_recentes' && $publication->prive == "0" || $publication->id_utilisateur == $this->session->userdata('id_utilisateur')) :?> 
+                                        <a href="<?= base_url() ?>publication/supprimer/<?=$liste ?>/<?= $publication->id_publication?>" class="delete" id="clic_suppr_publication">Supprimer</a> 
+                     <?php endif;?> 
+                              
+			<?php if($publication->prive == "0" || $publication->id_utilisateur == $this->session->userdata('id_utilisateur')) :?> 
 			<div class="publication">
                         			
 				<?php
@@ -98,8 +97,9 @@
 			
                         </div>
                                                         
-			<?php endif;?>
-                                          
+			<?php endif; ?>
+                                                        
+                                               
                                     
                                                         
 		<?php endforeach;

@@ -36,29 +36,35 @@
 							<?php endforeach;
 								else: ?>
 									<p>Aucune</p>
+                                                                        <br/>
 								<?php
 								endif;?>
 			</div>
 			
                         <div id="partenaire_possible_liste" class="description listing">
-				<h3 class="libelle">Demande(s) de partenariat en attente :</h3>
+                            <h3 class="libelle">Demande(s) de partenariat en attente :</h3> <br/>
 				<?php if(isset($liste_partenaires_demandes) && count($liste_partenaires_demandes) > 0):
+                                    
 						foreach($liste_partenaires_demandes as $partenaire_demande): ?>
 						
                                                 <div class="groupe">
 							<h3 class="nom"><?= $partenaire_demande->id_groupe?> <?= $partenaire_demande->nom?></h3>
 							<div id="barre_interaction">
 								<ul>
+                                                                    
 									<li><a href="<?=base_url();?>groupe/accepter_partenariat/<?= $groupe->id_groupe?>/<?= $partenaire_demande->id_groupe?>">Accepter</a></li>
 									<li><a href="<?=base_url();?>groupe/arreter_refuser_partenariat/<?= $groupe->id_groupe?>/<?= $partenaire_demande->id_groupe?>">Refuser</a></li>
-								</ul>
+                                                                    
+                                                                </ul>
 							</div>
 						</div>
                                                 <?php
+                                                
 						endforeach;
 							
                                                 else: ?>
 							<p>Aucune</p>
+                                                        <br/>
 						<?php
 						endif; ?>
 			</div>

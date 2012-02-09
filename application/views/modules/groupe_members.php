@@ -20,10 +20,27 @@
                     
                     <div id="tabs-3">
 					<div id="membre_liste" class="description listing">
-                                            
-                                        <span class="nbmembres"><strong><?= $nb_membres ?></strong> <?= plural('membre', $nb_membres) ?></span><br /><br/>
                                         
+                                        
+                                        <span class="nbmembres"><strong><?= $nb_membres ?></strong> <?= plural('membre', $nb_membres) ?></span>
+                                        
+                                        <?php if(isset ($admin)):?>
+                                            <span class="nbAdmin">/ <strong><?= count($admin) ?></strong> <?= plural('administrateur', count($admin)) ?></span><br /><br/>
+                                        <?php endif;?>
+                                            
                                         <br/>
+                                        
+                                        <?php if(isset($admin)): ?>
+					<div class="utilisateur">
+						<p class="avatar"><img src="<?= $admin->avatar != null ? img_upload_path().filename_to_thumb($admin->avatar) : img_upload_path().filename_to_thumb('user_default.png') ?>" alt="Membre <?= $admin->prenom.' '.$admin->nom ?>" /></p>
+						<h3 class="nom"><a href="<?= base_url() ?>utilisateur/profil/<?= $admin->id_utilisateur?>"><?= $admin->prenom.' '.$admin->nom ?></a> (Administrateur) </h3>
+					</div>
+                                         <?php
+                                        
+                                        else: ?>
+						<p>Il n'y a aucun administrateur dans ce groupe</p>
+					<?php
+					endif;?>
                                         
                                     <?php if(isset($liste_membres) && count($liste_membres) > 0): foreach($liste_membres as $membre): ?>
 					<div class="utilisateur">

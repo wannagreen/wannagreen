@@ -190,7 +190,10 @@ class Groupe extends CI_Controller {
 				case "members" :
 					// Récupère la liste des membres du groupe
                         		$this->data['liste_membres'] = $this->Utilisateur_model->liste_membre_groupe($id_url, "membre", 1)->result(); //members
-				break;
+                                        $this->data['liste_admin'] = $this->Utilisateur_model->get_admin($id_url); //administrateur
+                                        //$this->data['admin'] = $this->Utilisateur_model->get_admin($id_url);
+			
+                                break;
                             
                                 case "publications":
                                         $publication = new Publication_model();
@@ -385,12 +388,11 @@ class Groupe extends CI_Controller {
 	/**
 	 * Accepter la demande de partenariat d'un autre groupe
 	 */
-	public function accepter_partenariat(){
-
-		$groupe = new Groupe_model();
+	public function accepter_partenariat($id_groupe_1 = null, $id_groupe_2 = null){
+                
+                $groupe = new Groupe_model();
 		/*groupe->*/$id_groupe_demande = $this->uri->segment(3, null);
 		$groupe->id_groupe = $this -> uri->segment(4, null);
-		
 		
 		$groupe->statut = 1;  //Quoi ?				
 		$groupe->validate_partenariat($id_groupe_demande);
@@ -626,7 +628,7 @@ class Groupe extends CI_Controller {
 		}
 	}
 	
-
+        /** A MODIFIER ***/
 	public function ajouter_tag_publication(){
 		$tag = new Tag_model();
 		$id_utilisateur=$this->session->userdata('id_utilisateur');

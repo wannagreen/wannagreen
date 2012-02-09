@@ -87,7 +87,7 @@
 						if(count($publication->tags) > 0): ?>
 							<strong>Tags : </strong>
 						<?php foreach($publication->tags as $tag): ?>
-							<span class="tag_link"><a href="<?= base_url().'tag/search/'.$tag->id_tag ?>"><?= $tag->libelle ?></a></span>
+							<span class="tag_link"><a href="<?= base_url().'publication/tag_search/'.$tag->id_tag ?>"><?= $tag->libelle ?></a></span>
 						<?php endforeach;
 						endif; ?>
 			

@@ -309,7 +309,8 @@ class Publication extends CI_Controller {
 		$commentaire->contenu = $this->input->post('commentaire');
 		
 		$result = $commentaire->create();
-		if($result){
+		if($result)
+                {
 			$c = $this->Commentaire_model->get_by_id($commentaire->id_commentaire);
 			$comm = array();
 			$comm['id_utilisateur'] = $c->id_utilisateur;
@@ -383,6 +384,87 @@ class Publication extends CI_Controller {
 		$this->load->view('template', $this->data);
 	}
 	
+        public function tag_search($id_tag = null)
+        {
+            /*
+            $tag = new Tag_model();
+            $publication = new Publication_model();
+            $tag->get_id_tag();
+            $liste_publications = $publication->get_publication_by_id_tag($id_tag);
+            
+            $this->data['liste_publications'] = $liste_publications;
+		
+            //$this->data['liste'] = 'publications_recentes';
+            $this->data['module'] = 'publication_liste';
+            $this->load->view('template', $this->data);
+            */
+            
+            $publication = new Publication_model();
+            $tag = new Tag_model();
+            
+		$liste_publication = $publication->get_publication_by_id_tag($id_tag);
+		$libelleTag = $tag->get_libelle_tag($id_tag);
+                
+		foreach ($liste_publication as $publication) {
+                    
+			$publication->info = $this->Publication_info_model->get_by_id_publication($publication->id_publication);
+			$publication->groupe = $this->Publication_groupe_model->get_by_id_publication($publication->id_publication);
+			$publication->tags = $this->Tag_model->get_tag_publication($publication->id_publication);
+			
+			$nb_publication_visible = 0;
+			$publication->visible = FALSE;
+                        
+                        //foreach ($publication->info as $info) {
+			foreach ($publication->groupe as $groupe) {
+				if($publication->prive == 0) {
+					$nb_publication_visible += 1;
+                                       // $publication->visible = TRUE;
+				}
+				else {
+					// Vérifie le lien entre l'utilisateur (si connecté) et le groupe
+					$id_utilisateur = $this->session->userdata('id_utilisateur');
+					
+					if($id_utilisateur != null) {
+						// Récupère l'administrateur du groupe
+						$this->load->Model('Utilisateur_model');
+						$this->data['admin'] = $this->Utilisateur_model->get_admin($groupe->id_groupe);
+						$this->data['est_admin'] = FALSE;
+						// Vérifie si l'utilisateur connecté est l'admin du groupe
+						if($id_utilisateur == $this->data['admin']->id_utilisateur) {
+							$this->data['est_admin'] = TRUE;
+							$this->data['liste_membres_attente'] = $this->Utilisateur_model->liste_membre_groupe($groupe->id_groupe, "membre", 0)->result();
+						}
+						
+						// Vérifie le type d'adhésion de l'utilisateur au groupe
+						$this->data['adhesion'] = $this->Utilisateur_model->deja_membre($id_utilisateur, $groupe->id_groupe);
+						
+						if($this->data['adhesion'] || $this->data['est_admin']) {
+							$nb_publication_visible += 1;
+						}
+					}
+				}
+				if($nb_publication_visible >= 1)
+					$publication->visible = TRUE;
+				else
+					$publication->visible = FALSE;
+			}
+                        
+                        /*if(count($publication->groupe) < count($liste_publication))
+                        {
+                            if($publication->prive == 0) {
+					$nb_publication_visible += 1;
+                                        $publication->visible = TRUE;
+				}
+                        }*/
+		}
+		$this->data['liste_publications'] = $liste_publication;
+		
+		$this->data['liste'] = 'publications_recentes_tag';
+		$this->data['module'] = 'publication_liste_tag';
+                $this->data['tags'] = $libelleTag;
+		$this->load->view('template', $this->data);
+        }
+        
 	public function accueil_recente() {
 		$publication = new Publication_model();
 		$liste_publication = $publication->get_publication_recente();
