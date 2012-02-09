@@ -531,10 +531,10 @@ class Utilisateur extends CI_Controller {
         $this->load->helper('cookie');
         $encrypted_string = $this->encrypt->encode($_oldemail.'|'.$_hashpwd);
         $cookie = array(
-        'name'   => 'authData',
-        'value'  => $encrypted_string,
-        'expire' => '300',
-            'domain' => '.wannagreen.com.dev'
+            'name'   => 'authData',
+            'value'  => $encrypted_string,
+            'expire' => '300',
+            'domain' => isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : ''
         );
         $this->input->set_cookie($cookie);
         $this->data['hideEmailForm']=TRUE;
