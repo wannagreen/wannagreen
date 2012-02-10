@@ -179,6 +179,38 @@ class Groupe extends CI_Controller {
 			// Vérifie le lien entre l'utilisateur (si connecté) et le groupe
 			$id_utilisateur = $this->session->userdata('id_utilisateur');
                         
+                        /*******************
+                         * 
+                         * Si l'utilisateur est connecté
+                         * 
+                         */
+                        
+			if($id_utilisateur != null) {
+				// Vérifie le type d'adhésion de l'utilisateur au groupe
+				$this->data['adhesion'] = $this->Utilisateur_model->deja_membre($id_utilisateur, $id_url);
+				
+				// Récupère la liste des groupes dont l'utilisateur n'est pas l'admin et qui ne sont pas déjà dans les partenaires
+				$this->data['liste_partenaires_possibles'] = $this->Groupe_model->liste_partenaire_possible($id_utilisateur, $id_url);
+				
+				$this->data['est_admin'] = FALSE;				
+				// Vérifie si l'utilisateur connecté est l'admin du groupe
+				if($id_utilisateur == $this->data['admin']->id_utilisateur) {
+					$this->data['est_admin'] = TRUE;
+					$this->data['liste_membres_attente'] = $this->Utilisateur_model->liste_membre_groupe($id_url, "membre", 0)->result();
+				}
+			}
+			
+			// Récupère le nombre de membres et de favoris du groupe
+			$this->data['nb_membres'] = $this->nb_membres($id_url);
+			$this->data['nb_favoris'] = $this->nb_favoris($id_url);
+			
+			
+                        /*****************************
+                         * 
+                         * Selon l'onglet choisi par l'utilisateur
+                         * 
+                         */
+                        
                         switch($id_tab){
                             
 				case "partenaires" :
@@ -197,10 +229,20 @@ class Groupe extends CI_Controller {
                             
                                 case "publications":
                                         $publication = new Publication_model();
-						
-                                        if((isset($this->data['adhesion']) && $this->data['adhesion']) || (isset($this->data['est_admin']) && $this->data['est_admin'])) {
+					//$liste_publication = $publication->get_publication_by_id_groupe($id_url);
+            	
+                                        /*foreach ($liste_publication as $publication) {
+                                            
+                                            $id_utilisateur = $this->session->userdata('id_utilisateur');
+                    
+                                            if($publication->prive == 0 || $id_utilisateur == $publication->id_utilisateur) {
+                                        }*/
+                                        
+                                        if((isset($this->data['adhesion']) && $this->data['adhesion']) || (isset($this->data['est_admin']) && $this->data['est_admin']) ) {
                                             $liste_publication = $publication->get_publication_by_id_groupe($id_url);
                                         }
+                                        
+                                        
                                         else {
                                             $liste_publication = $publication->get_publication_publique_by_id_groupe($id_url);
                                         }

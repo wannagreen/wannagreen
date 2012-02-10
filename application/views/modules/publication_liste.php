@@ -31,7 +31,7 @@
                                                         <a href="<?= base_url() ?>publication/supprimer/<?=$liste ?>/<?= $publication->id_publication?>" class="delete" id="clic_suppr_publication">Supprimer</a> 
 			<?php endif;?> 
                                     
-			<?php if($liste == 'publications_recentes' && $publication->prive == "0" || $publication->id_utilisateur == $this->session->userdata('id_utilisateur')) :?> 
+			<?php if(($liste == 'publications_recentes' && ($publication->prive == "0" || $publication->visible)) || $publication->id_utilisateur == $this->session->userdata('id_utilisateur')) :?> 
 			<div class="publication">
                         			
 				<?php

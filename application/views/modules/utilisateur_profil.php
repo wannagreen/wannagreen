@@ -24,7 +24,7 @@
 				</div>
 				<div id="tabs-1">
 					<?php if((isset($utilisateur_groupes) && count($utilisateur_groupes) == 0) && (isset($utilisateur_admin) && count($utilisateur_admin) == 0)): ?>
-						<p><?= $utilisateur->prenom . ' ' . $utilisateur->nom?> n'est membre d'aucun groupe</p>
+						<p><?= $utilisateur->prenom . ' ' . $utilisateur->nom?> n'est membre d'aucun groupe</p> <br/>
 					<?php else: ?>
 						
 						<?php if(isset($utilisateur_admin) && count($utilisateur_admin) > 0): ?>
@@ -49,10 +49,16 @@
 				</div>
 				<div id="tabs-2">
 					<div class="description listing">
+                                            
+                                        <p><?= $utilisateur->prenom . ' ' . $utilisateur->nom?> a fait <strong><?= count($liste_publications)?> </strong> <?= plural('publication', count($liste_publications)).' : '?></p>
+                                                 
+                                        <br/>
+                                        
 					<?php if(isset($liste_publications) && count($liste_publications) > 0) : foreach($liste_publications as $publication): ?>
 						
 						<?php if($publication->visible) :?> 
                                             
+                                                
 						<div class="publication">
                                                     
 						<?php if($publication->id_utilisateur == $this->session->userdata('id_utilisateur')):

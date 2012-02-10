@@ -392,7 +392,7 @@ class Utilisateur extends CI_Controller {
                 $nb_publication_visible = 0;
                 $publication->visible = FALSE;
                 
-                if(count($liste_groupe)>0)
+                if(count($liste_groupe)!=0)
                 {
                   foreach ($liste_groupe as $groupe) {
                     // Vérifie le lien entre l'utilisateur (si connecté) et le groupe
@@ -428,7 +428,7 @@ class Utilisateur extends CI_Controller {
                   }
                 }
                 
-                /* Si pas membre s'un groupe */
+                /* Si pas membre d'un groupe */
                 else {
                     
                     $id_utilisateur = $this->session->userdata('id_utilisateur');
