@@ -33,7 +33,9 @@
 		if(isset($liste_publication) && count($liste_publication) > 0) : 
 		foreach($liste_publication as $publication): 
 		?>
-			
+            
+            <?php if(($publication->prive == "0" || $publication->visible) || $publication->id_utilisateur == $this->session->userdata('id_utilisateur')) :?> 
+					
            <div class="publication">
 				<?php 	
                                 if(count($publication->groupe) > 0)
@@ -57,15 +59,21 @@
                         <?php if(isset($publication->info) && count($publication->info) > 0) : 
                                     
                         foreach($publication->info as $info) : 
-							if($info->libelle == 'titre') : ?>
-							<h3 class="nom"><?= $info->contenu ?></h3>
-							<?php endif;?>
-						<?php endforeach;     
+							
+                                                if($info->libelle == 'titre') : ?>
+						<h3 class="nom"><?= $info->contenu ?>
+                                                
+                                                <?php
+                                                foreach($publication->info as $info) : 
                                     
-                        foreach($publication->info as $info) : 
-							if($info->libelle == 'url') : ?>
-							<a href=<?= $info->contenu ?> class="_blank"><?= $info->contenu ?></a>
-							<?php endif;?>
+                                                if($info->libelle == 'url') : ?>
+						(<a href=<?= $info->contenu ?> class="_blank"><?= $info->contenu ?></a>)
+						<?php endif;?>
+					
+                                                 <?php endforeach; ?>
+					
+						<?php endif;?>
+                                                </h3>
                         <?php endforeach;
 					
                         foreach($publication->info as $info) :      
@@ -93,15 +101,13 @@
 			
                 </div>
 
-           
+                <?php endif;?>
 
 		<?php endforeach;
 		else: ?>
 			<p>Il n'y a aucune publication</p>
 		<?php endif;?>
 	
-	
-			
 			
 		</div>
 		</div>
