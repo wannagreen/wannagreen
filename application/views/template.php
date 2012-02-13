@@ -70,8 +70,12 @@
 					$this->load->view('blocks/contribuer.php');
 				}else
 				{
-				$this->load->view('blocks/inscription.php');
-				$this->load->view('blocks/consulter.php');
+					if(isset($module) && $module=="forgottenPassword"){
+					$this->load->view('blocks/consulter.php');
+					}else{
+					$this->load->view('blocks/inscription.php');
+					$this->load->view('blocks/consulter.php');
+					}
 				}
 			
 
