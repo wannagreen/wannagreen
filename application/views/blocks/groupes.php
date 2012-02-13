@@ -1,5 +1,7 @@
-<div id="groupe" class="block ui-tabs ui-widget ui-widget-content ui-corner-all"">
+
 	<?php if((isset($tabs_mes_groupes) && count($tabs_mes_groupes) > 0) || (isset($tabs_mes_favoris) && count($tabs_mes_favoris) > 0) || (isset($tabs_mes_admin) && count($tabs_mes_admin) > 0)): ?>
+	
+	<div id="groupe" class="block ui-tabs ui-widget ui-widget-content ui-corner-all">
 	<div id="tabs">
 		<ul>
                         <!-- Pour l'affichage des groupes -->
@@ -51,5 +53,5 @@
                 </ul>
 		
 	</div>
-	<?php endif; ?>
 </div>
+	<?php endif; ?>
