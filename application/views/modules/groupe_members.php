@@ -21,7 +21,16 @@
                     <div id="tabs-3">
 					<div id="membre_liste" class="description listing">
                                         
-                                        
+                                        <?php if(isset ($admin)): ?><!-- administrateur est membre du groupe -->
+                                            
+                                            <?php 
+                                             
+                                            $nb_membres = $nb_membres + 1;
+                                            
+                                            ?>
+                                                                    
+                                        <?php endif;?>
+                                            
                                         <span class="nbmembres"><strong><?= $nb_membres ?></strong> <?= plural('membre', $nb_membres) ?></span>
                                         
                                         <?php if(isset ($admin)):?>
@@ -50,7 +59,7 @@
                                     <?php endforeach;
                                         
 					else: ?>
-						<p>Il n'y a aucun membre dans ce groupe</p>
+						<p>Il n'y a aucun autre membre dans ce groupe</p>
 					<?php
 					endif;
                                     ?>

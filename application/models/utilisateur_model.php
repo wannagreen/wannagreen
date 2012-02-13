@@ -129,8 +129,12 @@ error_log("res=".print_r($result,1), 3, "/Users/mourad/hyperEspace/wannagreen/ph
 		$this->db->select('u.id_utilisateur, u.email, u.password, u.nom, u.prenom, u.adresse, u.latitude, u.longitude, u.sexe, u.date_naissance,u.avatar, u.date_creation, u.date_maj');
 		$this->db->from('utilisateur u');
 		$this->db->join('adhesion a','a.id_utilisateur=u.id_utilisateur');
+                //$this->db->join('groupe g','g.id_utilisateur=u.id_utilisateur'); // ajout pour l'administrateur
+                
 		$this->db->where('a.id_groupe', $id_groupe);
 		$this->db->where('a.type',$type);
+                //$this->db->or_where_in('g.id_groupe', $id_groupe);
+                
 		if($mode_map) {
 			$this->db->where('u.adresse <>', 'null');
 			$this->db->where('u.latitude <>', 'null');

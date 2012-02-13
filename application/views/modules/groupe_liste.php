@@ -9,7 +9,12 @@
 			<h3 class="nom"><a href="<?=base_url();?>groupe/details/<?= $groupe->id_groupe?>"><?= $groupe->nom ?></a></h3>
 			<p>
 				<span class="nbpartenaires"><strong><?= $groupe->nb_partenaires ?></strong> <?= plural('groupe', $groupe->nb_partenaires) . plural(' partenaire', $groupe->nb_partenaires) ?></span>
-				<span class="nbmembres"><strong><?= $groupe->nb_membres ?></strong> <?= plural('membre', $groupe->nb_membres) ?></span>
+				
+                                <!-- l'administrateur est membre d'un groupe -->
+                                <?php $nb_membres=($groupe->nb_membres)+1; ?>
+                                
+                                 
+                                <span class="nbmembres"><strong><?= $nb_membres ?></strong> <?= plural('membre', $nb_membres) ?></span>
 				<span class="nbfavoris"><strong><?= $groupe->nb_favoris ?></strong> <?= plural('favori', $groupe->nb_favoris) ?></span>
 			</p>
 			<p class="description"><?= character_limiter($groupe->description, 60) ?></p>

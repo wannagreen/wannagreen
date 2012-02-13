@@ -49,8 +49,26 @@
 				</div>
 				<div id="tabs-2">
 					<div class="description listing">
-                                            
-                                        <p><?= $utilisateur->prenom . ' ' . $utilisateur->nom?> a fait <strong><?= count($liste_publications)?> </strong> <?= plural('publication', count($liste_publications)).' : '?></p>
+                                        
+                                        <!-- -->
+                                        <?php $nbpublic = 0; ?>
+                                        <?php if(isset($liste_publications) && count($liste_publications) > 0) : foreach($liste_publications as $publication): ?>
+						
+						<?php if($publication->visible):
+                                        
+                                                       $nbpublic = $nbpublic + 1;
+                                                
+                                                ?>
+                                        
+                                                <?php endif?>
+                                        
+                                            <?php endforeach;?>
+                                        <?php endif?>
+                                        
+                                        <!-- -->
+                                        
+                                        
+                                        <p><?= $utilisateur->prenom . ' ' . $utilisateur->nom?> a fait <strong><?= count($liste_publications)?> </strong> <?= plural('publication', count($liste_publications)).', dont '. $nbpublic. ' en public : '?></p>
                                                  
                                         <br/>
                                         

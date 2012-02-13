@@ -56,7 +56,17 @@
                         <p class="date">Groupe créé le <?= time_to_str($groupe->date_creation) ?> par <?= isset($admin) ? '<a href="'.base_url().'utilisateur/profil/'.$admin->id_utilisateur.'">'.$admin->prenom.' '.$admin->nom.'</a>' : "un administrateur"; ?></p>
                         <p>
 				<span class="nbpartenaires"><strong><?= $nb_partenaires ?></strong> <?= plural('groupe', $nb_partenaires).' '.plural('partenaire', $nb_partenaires) ?></span><br />
-				<span class="nbmembres"><strong><?= $nb_membres ?></strong> <?= plural('membre', $nb_membres) ?></span><br />
+				
+                                
+                                <!-- l'administrateur est membre d'un groupe -->
+                                <?php if(isset ($admin)): ?><!-- administrateur est membre du groupe -->
+                                            
+                                          
+                                     <?php $nb_membres = $nb_membres + 1;?>
+                                                                    
+                                  <?php endif;?>
+                                            
+                                <span class="nbmembres"><strong><?= $nb_membres ?></strong> <?= plural('membre', $nb_membres) ?></span><br />
 				<span class="nbfavoris"><strong><?= $nb_favoris ?></strong> <?= plural('sélection', $nb_favoris) ?> comme favoris</span><br />
                         </p>
                         <p>

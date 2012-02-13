@@ -28,8 +28,14 @@
 					<?php if(isset($liste_partenaires) && count($liste_partenaires) > 0):
 							foreach($liste_partenaires as $partenaire): ?>
 						<div class="groupe">
-							<p class="avatar"><img src="<?= $partenaire->avatar != null ? img_upload_path().filename_to_thumb($partenaire->avatar) : img_upload_path().filename_to_thumb('group_default.png') ?>" width="50px" height="50px" /></p>
-							<h3 class="nom"><a href="<?= base_url() ?>groupe/details/<?= $partenaire->id_groupe?>"><?= $partenaire->nom ?></a></h3><?php if(isset($est_admin) && $est_admin) : ?><a href="<?=base_url();?>groupe/arreter_refuser_partenariat/<?= $groupe->id_groupe?>/<?= $partenaire->id_groupe?>">Arrêter partenariat</a><?php endif; ?>
+							<p class="avatar"><img src="<?= $partenaire->avatar != null ? img_upload_path().filename_to_thumb($partenaire->avatar) : img_upload_path().filename_to_thumb('group_default.png') ?>" width="50px" height="50px" /></p><br/>
+							<h3 class="nom"><a href="<?= base_url() ?>groupe/details/<?= $partenaire->id_groupe?>"><?= $partenaire->nom ?></a></h3>
+                                                                <?php if(isset($est_admin) && $est_admin) : ?>
+                                                                    
+                                                                    <a href="<?=base_url();?>groupe/arreter_refuser_partenariat/<?= $groupe->id_groupe?>/<?= $partenaire->id_groupe?>">Arrêter partenariat</a>
+                                                                
+                                                                <?php endif; ?>
+                                                          <br/><br/><br/>   
 						</div>
 					<?php
 							endforeach;
