@@ -3,8 +3,8 @@
 		<div id="utilisateur_profil" class="profil_details">
 			<div id="tabs">
 				<ul>
-					<li><a href="#tabs-1">Groupes</a></li>
-					<li><a href="#tabs-2">Publications</a></li>
+					<!--<li><a href="#tabs-1">Groupes</a></li>
+					<li><a href="#tabs-2">Publications</a></li>-->
 				</ul>
 				<div class="block_content ui-tabs-panel ui-widget-content">
 					<p class="avatar"><img src="<?= $utilisateur->avatar != null ? img_upload_path().$utilisateur->avatar : img_upload_path().'user_default.png' ?>" width="150px" height="150px" alt="Utilisateur <?= $utilisateur->prenom.' '.$utilisateur->nom ?>" /></p>
@@ -13,7 +13,16 @@
 					<p><?= $utilisateur->adresse != '' ? 'Adresse : '.$utilisateur->adresse : ''; ?></p>
 					<p><?= $utilisateur->sexe != '' ? 'Sexe : '.$utilisateur->sexe : ''; ?></p>
 					<p><?= $utilisateur->date_naissance != '' ? 'Né(e) le '.$utilisateur->date_naissance : ''; ?></p>
-					<br />
+					
+                                        <br />
+                                        
+                                        <?php if($utilisateur->id_utilisateur == $this->session->userdata('id_utilisateur')): ?>
+						
+                                            <a class="admin" href="<?=base_url();?>utilisateur/modification_profil">Modifier votre profil</a>
+                                            <br />
+                                        
+                                        <?php endif ?>
+                                        
 					<?php if(isset($utilisateur_profils_externes) && count($utilisateur_profils_externes) > 0): ?>
 						<ul>
 							<?php foreach($utilisateur_profils_externes as $profil_externe): ?>
