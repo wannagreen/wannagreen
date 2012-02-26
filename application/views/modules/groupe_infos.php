@@ -63,7 +63,7 @@
                         <p>
 				<?php if($liste_tags->num_rows()>0): ?>
 						<?php foreach($liste_tags->result() as $tag): ?>
-						<span class="tag_link"><a href="<?= base_url().'tag/search/'.$tag->id_tag ?>"><?= $tag->libelle ?></a>
+						<span class="tag_link"><a href="<?= base_url().'publication/tag_search/'.$tag->id_tag ?>"><?= $tag->libelle ?></a>
 						<?php if(isset($est_admin) && $est_admin == TRUE) { ?>
 							<img src="<?=base_url()?>images/icons/delete.png" alt="supprimer" title="supprimer" rel="<?=$tag->id_tag?>" />
 						<?php } ?>
