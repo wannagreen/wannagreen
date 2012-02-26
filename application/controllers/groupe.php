@@ -203,8 +203,30 @@ class Groupe extends CI_Controller {
 			// Récupère le nombre de membres et de favoris du groupe
 			$this->data['nb_membres'] = $this->nb_membres($id_url);
 			$this->data['nb_favoris'] = $this->nb_favoris($id_url);
+			  
+                        /*** pour publication ***/
+                        $publication = new Publication_model();
 			
-			
+                                        
+                        if((isset($this->data['adhesion']) && $this->data['adhesion']) || (isset($this->data['est_admin']) && $this->data['est_admin'])) {
+                           $liste_publication = $publication->get_publication_by_id_groupe($id_url);
+                        }
+                                        
+                                        
+                        else 
+                        {
+                           $liste_publication = $publication->get_publication_publique_by_id_groupe($id_url);
+                        }
+	
+                        foreach ($liste_publication as $publication) {
+                                 $publication->info = $this->Publication_info_model->get_by_id_publication($publication->id_publication);
+                                 $publication->commentaires = $this->Commentaire_model->get_by_id_publication($publication->id_publication);
+                                 $publication->tags = $this->Tag_model->get_tag_publication($publication->id_publication);
+                        }
+                        $this->data['liste_publications'] = $liste_publication;
+                                        
+                        $this->data['liste_partenaires_demandes'] = $groupe->get_liste_partenaire($groupe->id_groupe, FALSE);
+                        $this->data['nbPub'] = count($liste_publication);               
                         /*****************************
                          * 
                          * Selon l'onglet choisi par l'utilisateur
@@ -238,7 +260,7 @@ class Groupe extends CI_Controller {
                                             if($publication->prive == 0 || $id_utilisateur == $publication->id_utilisateur) {
                                         }*/
                                         
-                                        if((isset($this->data['adhesion']) && $this->data['adhesion']) || (isset($this->data['est_admin']) && $this->data['est_admin']) ) {
+                                        if((isset($this->data['adhesion']) && $this->data['adhesion']) || (isset($this->data['est_admin']) && $this->data['est_admin'])) {
                                             $liste_publication = $publication->get_publication_by_id_groupe($id_url);
                                         }
                                         
@@ -253,7 +275,7 @@ class Groupe extends CI_Controller {
                                             $publication->tags = $this->Tag_model->get_tag_publication($publication->id_publication);
                                         }
                                         $this->data['liste_publications'] = $liste_publication;
-			
+                                        
                                         $this->data['liste_partenaires_demandes'] = $groupe->get_liste_partenaire($groupe->id_groupe, FALSE);
                                         //case "infos" :
                                 break;
@@ -295,7 +317,7 @@ class Groupe extends CI_Controller {
 				}
 			}
                         // Récupère le nombre de membres et de favoris du groupe
-			$this->data['nb_membres'] = $this->nb_membres($id_url);
+			$this->data['nb_membres'] = $this->nb_membres($id_url)+1; // l'administrateur est aussi membre du groupe
 			$this->data['nb_favoris'] = $this->nb_favoris($id_url);
 			
 			// Récupère la liste des membres du groupe
@@ -305,7 +327,8 @@ class Groupe extends CI_Controller {
 			$this->data['liste_partenaires'] = $this->Groupe_model->get_liste_partenaire($id_url);
 			
 			$this->data['nb_partenaires'] = count($this->data['liste_partenaires']); // JR_TO DO : même méthode que pour nb membres et favoris
-			
+			//$this->data['nbPub'] = count($this->data['liste_publications']);
+                        
 			//$this->data['nb_partenaires'] = $query->num_rows();
 			
 			// Liste des tags associés au groupe
@@ -642,7 +665,7 @@ class Groupe extends CI_Controller {
 				$this->data['notice_type'] = 'success';
 			}
 			else {
-				$this->data['notice'] = 'problème pour ajouter les tags';
+				$this->data['notice'] = 'Tag non ajouté : vous avez saisi un tag existant.';
 				$this->data['notice_type'] = 'warning';
 			}
 			$this->load->view('notice', $this->data);
@@ -715,7 +738,7 @@ class Groupe extends CI_Controller {
 			$this->data['notice_type'] = 'success';
 		}
 		else {
-			$this->data['notice'] = 'problème pour ajouter les tags';
+			$this->data['notice'] = 'Tag non ajouté : vous avez saisi un tag existant.';
 			$this->data['notice_type'] = 'warning';
 		}
 		$this->load->view('notice', $this->data);

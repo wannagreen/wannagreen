@@ -145,7 +145,25 @@ error_log("res=".print_r($result,1), 3, "/Users/mourad/hyperEspace/wannagreen/ph
 		$this->db->order_by('u.prenom','ASC');
 		return $this->db->get();
 	}
-	
+        
+	function getNombre($type,$id_groupe,  $statut, $mode_map = FALSE){
+		$this->db->select('count(*) nombre');
+		$this->db->from('utilisateur u');
+		$this->db->join('adhesion a','a.id_utilisateur=u.id_utilisateur');
+		$this->db->where('a.id_groupe', $id_groupe);
+		$this->db->where('a.type',$type);
+		if($mode_map) {
+			$this->db->where('u.adresse <>', 'null');
+			$this->db->where('u.latitude <>', 'null');
+			$this->db->where('u.longitude <>', 'null');
+		}
+		$this->db->where('a.statut' ,$statut);
+		$this->db->order_by('u.nom','ASC');
+		$this->db->order_by('u.prenom','ASC');
+		return $this->db->get();
+		
+	}
+        
 	/*function qui renvoie true si l'utilisateur existe dans la base*/
 	function utilisateur_exists()
 	{

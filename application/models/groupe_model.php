@@ -105,6 +105,32 @@ class Groupe_model extends CI_Model {
 		return $query->result();
 	}
 	
+        function getNbPartenaire($id, $confirmed = TRUE)
+	{
+		$and = $confirmed ? ' and statut = 1' : ' and statut = 0';
+		$query = $this->db->query("select count(*) nombre from (
+			(select p.id_groupe_demandeur id_groupe, g.nom, g.avatar from partenariat p, groupe g where p.id_groupe_demandeur = g.id_groupe and p.id_groupe_demande = $id $and)
+			union
+			(select p.id_groupe_demande id_groupe, g.nom, g.avatar from partenariat p, groupe g where p.id_groupe_demande = g.id_groupe and p.id_groupe_demandeur = $id $and)) T
+		");
+		
+		return $query->result();
+	}
+	
+	function getNbPublication($id, $confirmed=true)
+	{
+		$this->load->helper('array');
+	 $and = $confirmed ? ' and statut = 1' : ' and statut = 0';
+	 $query = $this->db->query(" select count(*) nombre from
+			((select p.id_groupe_demandeur id_groupe, g.nom from partenariat p, groupe g where p.id_groupe_demandeur = g.id_groupe and p.id_groupe_demande =". $id." ". $and.")
+			union
+			(select p.id_groupe_demande id_groupe, g.nom from partenariat p, groupe g where p.id_groupe_demande = g.id_groupe and p.id_groupe_demandeur = $id $and)
+		) T ");
+
+		return $query->result();
+	   
+	}
+        
 	function liste_partenaire_possible($id_utilisateur, $id_groupe) {
 		
 		// Récupère la liste des groupes qui sont déjà partenaires avec le groupe sélectionné

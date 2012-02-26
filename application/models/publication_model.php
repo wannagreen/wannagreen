@@ -55,6 +55,19 @@ class Publication_model extends CI_Model {
 		return $query->result();
 	}
 	
+        function getNbPublication($id_groupe)
+	{
+		$this->db->select('count(*) nombre');
+		$this->db->from('publication p');
+		$this->db->join('publication_groupe g','g.id_publication=p.id_publication');
+		$this->db->where('g.id_groupe',$id_groupe);
+        $this->db->join('utilisateur u','u.id_utilisateur=p.id_utilisateur');
+		$this->db->order_by('p.date_creation','DESC');
+		$query = $this->db->get();
+		return $query->result();
+	   
+	}
+        
 	function get_publication_publique_by_id_groupe ($id_groupe)
 	{
 		$this->db->select('p.id_publication,p.type,p.prive,p.date_creation,p.date_maj,p.id_utilisateur,u.prenom,u.nom');
