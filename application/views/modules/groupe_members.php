@@ -5,9 +5,9 @@
 				<h2 class="nom"><?= $groupe->nom ?></h2>
 				<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
 					<li class="ui-state-default ui-corner-top ui-state"><a href="<?=base_url();?>groupe/details/<?= $groupe->id_groupe ?>/infos">Infos</a></li>
-					<li class="ui-state-default ui-corner-top ui-state"><a href="<?=base_url();?>groupe/details/<?= $groupe->id_groupe ?>/partenaires">Partenaires</a></li>
-					<li><a href="<?=base_url();?>groupe/details/<?= $groupe->id_groupe ?>/members">Membres</a></li>
-					<li class="ui-state-default ui-corner-top ui-state"><a href="<?=base_url();?>groupe/details/<?= $groupe->id_groupe ?>/publications">Publications</a></li>
+					<li class="ui-state-default ui-corner-top ui-state"><a href="<?=base_url();?>groupe/details/<?= $groupe->id_groupe ?>/partenaires">Partenaires (<?php echo $nb_partenaires; ?>)</a></li>
+					<li><a href="<?=base_url();?>groupe/details/<?= $groupe->id_groupe ?>/members">Membres (<?php echo $nb_membres; ?>)</a></li>
+					<li class="ui-state-default ui-corner-top ui-state"><a href="<?=base_url();?>groupe/details/<?= $groupe->id_groupe ?>/publications">Publications (<?php echo $nbPub; ?>)</a></li>
 					<li class="ui-state-default ui-corner-top ui-state"><a href="<?=base_url();?>groupe/details/<?= $groupe->id_groupe ?>/carte">Carte</a></li>
 					<?php
 					if(isset($est_admin) && $est_admin) : ?>
@@ -20,17 +20,7 @@
                     
                     <div id="tabs-3">
 					<div id="membre_liste" class="description listing">
-                                        
-                                        <?php if(isset ($admin)): ?><!-- administrateur est membre du groupe -->
-                                            
-                                            <?php 
-                                             
-                                            $nb_membres = $nb_membres + 1;
-                                            
-                                            ?>
-                                                                    
-                                        <?php endif;?>
-                                            
+                                       
                                         <span class="nbmembres"><strong><?= $nb_membres ?></strong> <?= plural('membre', $nb_membres) ?></span>
                                         
                                         <?php if(isset ($admin)):?>
@@ -69,7 +59,7 @@
 		</div>
 	<?php
 		else:
-			$this->load-view('notice', array('notice_type' => 'warning', 'notice' => "Le groupe demandé n'existe pas"));
+			$this->load->view('notice', array('notice_type' => 'warning', 'notice' => "Le groupe demandÃ© n'existe pas"));
 		endif;
 	?>
 </div>

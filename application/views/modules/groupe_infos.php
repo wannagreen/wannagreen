@@ -5,9 +5,10 @@
 				<h2 class="nom"><?= $groupe->nom ?></h2>
 				<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
 					<li><a href="<?=base_url();?>groupe/details/<?= $groupe->id_groupe ?>/infos">Infos</a></li>
-					<li class="ui-state-default ui-corner-top ui-state"><a href="<?=base_url();?>groupe/details/<?= $groupe->id_groupe ?>/partenaires">Partenaires</a></li>
-					<li class="ui-state-default ui-corner-top ui-state"><a href="<?=base_url();?>groupe/details/<?= $groupe->id_groupe ?>/members">Membres</a></li>
-					<li class="ui-state-default ui-corner-top ui-state"><a href="<?=base_url();?>groupe/details/<?= $groupe->id_groupe ?>/publications">Publications</a></li>
+					<li class="ui-state-default ui-corner-top ui-state"><a href="<?=base_url();?>groupe/details/<?= $groupe->id_groupe ?>/partenaires">Partenaires (<?php echo $nb_partenaires; ?>)</a></li>
+					<li class="ui-state-default ui-corner-top ui-state"><a href="<?=base_url();?>groupe/details/<?= $groupe->id_groupe ?>/members">Membres (<?php echo $nb_membres; ?>)</a></li> 
+					
+					<li class="ui-state-default ui-corner-top ui-state"><a href="<?=base_url();?>groupe/details/<?= $groupe->id_groupe ?>/publications">Publications (<?php echo $nbPub; ?>)</a></li>
 					<li class="ui-state-default ui-corner-top ui-state"><a href="<?=base_url();?>groupe/details/<?= $groupe->id_groupe ?>/carte">Carte</a></li>
 					<?php
 					if(isset($est_admin) && $est_admin) : ?>
@@ -56,23 +57,13 @@
                         <p class="date">Groupe créé le <?= time_to_str($groupe->date_creation) ?> par <?= isset($admin) ? '<a href="'.base_url().'utilisateur/profil/'.$admin->id_utilisateur.'">'.$admin->prenom.' '.$admin->nom.'</a>' : "un administrateur"; ?></p>
                         <p>
 				<span class="nbpartenaires"><strong><?= $nb_partenaires ?></strong> <?= plural('groupe', $nb_partenaires).' '.plural('partenaire', $nb_partenaires) ?></span><br />
-				
-                                
-                                <!-- l'administrateur est membre d'un groupe -->
-                                <?php if(isset ($admin)): ?><!-- administrateur est membre du groupe -->
-                                            
-                                          
-                                     <?php $nb_membres = $nb_membres + 1;?>
-                                                                    
-                                  <?php endif;?>
-                                            
-                                <span class="nbmembres"><strong><?= $nb_membres ?></strong> <?= plural('membre', $nb_membres) ?></span><br />
+				<span class="nbmembres"><strong><?= $nb_membres ?></strong> <?= plural('membre', $nb_membres) ?></span><br />
 				<span class="nbfavoris"><strong><?= $nb_favoris ?></strong> <?= plural('sélection', $nb_favoris) ?> comme favoris</span><br />
                         </p>
                         <p>
 				<?php if($liste_tags->num_rows()>0): ?>
 						<?php foreach($liste_tags->result() as $tag): ?>
-						<span class="tag_link"><a href="<?= base_url().'publication/tag_search/'.$tag->id_tag ?>"><?= $tag->libelle ?></a>
+						<span class="tag_link"><a href="<?= base_url().'tag/search/'.$tag->id_tag ?>"><?= $tag->libelle ?></a>
 						<?php if(isset($est_admin) && $est_admin == TRUE) { ?>
 							<img src="<?=base_url()?>images/icons/delete.png" alt="supprimer" title="supprimer" rel="<?=$tag->id_tag?>" />
 						<?php } ?>
@@ -116,7 +107,7 @@
 		</div>
 	<?php
 		else:
-			$this->load-view('notice', array('notice_type' => 'warning', 'notice' => "Le groupe demandé n'existe pas"));
+			$this->load->view('notice', array('notice_type' => 'warning', 'notice' => "Le groupe demandé n'existe pas"));
 		endif;
 	?>
 </div>
