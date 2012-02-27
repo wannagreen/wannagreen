@@ -1,4 +1,4 @@
-<?= doctype(); ?> 
+﻿<?= doctype(); ?> 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
 <head>
 	<title>Wannagreen Platform</title>
@@ -64,7 +64,7 @@
 		<div id="accueil_contenu">
 			<div id="gauche"><?php
 				if($user_connected) {
-					$this->load->view('blocks/profil.php');
+					//$this->load->view('blocks/profil.php');
 					$this->load->view('blocks/consulter.php');
 					$this->load->view('blocks/groupes.php');
 					$this->load->view('blocks/contribuer.php');
