@@ -6,7 +6,9 @@
 	<div class="block_content ui-tabs-panel ui-widget-content ui-corner-bottom">
 		
 			<?php if(isset($context)) echo $context; ?>
-		<?= strlen(validation_errors()) ? '<div class="error">Tous les champs sont obligatoires</div>': ''; ?>
+		<?= strlen(validation_errors()) ? '<div class="error">'.validation_errors().'</div>': ''; ?>
+		
+	
 		
 		<ul>
 			<table>
