@@ -61,19 +61,26 @@
 		</div>
 	</div>
 	<div id="conteneur">
-		<div id="contenu">
-			<div id="gauche">
-				<?php
+		<div id="accueil_contenu">
+			<div id="gauche"><?php
 				if($user_connected) {
+					$this->load->view('blocks/profil.php');
+					$this->load->view('blocks/consulter.php');
 					$this->load->view('blocks/groupes.php');
 					$this->load->view('blocks/contribuer.php');
-				}
+				}else
+				{
+				$this->load->view('blocks/inscription.php');
 				$this->load->view('blocks/consulter.php');
+				}
+			
+
 				?>
 			</div>
 			<div id="droite" class="block">
 				<?php
 					if(isset($module) && file_exists('application/views/modules/'.$module.'.php')):
+					
 						$this->load->view('modules/'.$module.'.php');
 					else: ?>
 						<div id="module" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
